@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Adam Gardner",
+  "classifications": ["Web", "API"],
+  "identity": "DotnetCqrsTemplate",
+  "name": "Dotnet CQRS Template",
+  "shortName": "CQRS Template",
+  "sourceName": "SourceName",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "preferNameDirectory": true,
+  "symbols": {
+    "EnableFileLogger": {
+      "type": "parameter",
+      "description": "Enables file logging output",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "EnableRateLimiting": {
+      "type": "parameter",
+      "description": "Enables rate limiting with redis",
+      "datatype": "bool",
+      "defaultValue": "true"
+    }
+  }
+}
