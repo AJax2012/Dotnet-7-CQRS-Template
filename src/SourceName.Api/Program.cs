@@ -30,7 +30,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add logger
 builder.Logging.ClearProviders();
 
-#if (TRACE)
+#if (EnableFileLogger)
 var loggingFilePath = builder.Configuration.GetSection("LoggingFilePath").Value;
 Guard.Against.NullOrWhiteSpace(loggingFilePath, "LoggingFilePath",
     "When using file logger for serilog, LoggingFilePath must be set in appsettings or environment configuration");
@@ -40,7 +40,7 @@ ILogger logger = new LoggerConfiguration()
     .Enrich.WithExceptionDetails()
     .Enrich.WithDemystifiedStackTraces()
     .WriteTo.Console()
-#if (TRACE)
+#if (EnableFileLogger)
     .WriteTo.File(new JsonFormatter(renderMessage: true), loggingFilePath, rollingInterval: RollingInterval.Day)
 #endif
     .CreateLogger();
