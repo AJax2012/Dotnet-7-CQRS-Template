@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Moq;
 using NUnit.Framework;
+using Serilog;
+using Serilog.Core;
 using SourceName.Api.Filters;
 
 namespace SourceName.Api.Test.Filters;
@@ -16,13 +19,15 @@ namespace SourceName.Api.Test.Filters;
 public class ApiExceptionFilterTest
 {
     private Fixture _fixture = null!;
+    private Mock<ILogger> _logger = null!;
     private ApiExceptionFilter _sut = null!;
 
     [SetUp]
     public void SetUp()
     {
         _fixture = new Fixture();
-        _sut = new ApiExceptionFilter();
+        _logger = new Mock<ILogger>();
+        _sut = new ApiExceptionFilter(_logger.Object);
     }
 
     [Test]
