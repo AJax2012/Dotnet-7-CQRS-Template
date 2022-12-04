@@ -1,5 +1,4 @@
-﻿using System;
-using FluentValidation.TestHelper;
+﻿using FluentValidation.TestHelper;
 using NUnit.Framework;
 using SourceName.Api.Validators;
 using SourceName.Application.Commands;

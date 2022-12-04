@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using SourceName.Infrastructure.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace SourceName.Infrastructure.Loaders;
 

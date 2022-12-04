@@ -1,5 +1,4 @@
-﻿using System;
-using AutoFixture;
+﻿using AutoFixture;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using SourceName.Api.Validators;

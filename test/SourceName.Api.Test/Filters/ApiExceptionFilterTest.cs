@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Moq;
 using NUnit.Framework;
 using Serilog;
-using Serilog.Core;
 using SourceName.Api.Filters;
 
 namespace SourceName.Api.Test.Filters;

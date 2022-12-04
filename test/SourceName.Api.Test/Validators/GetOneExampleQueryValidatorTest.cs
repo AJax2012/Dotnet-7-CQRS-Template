@@ -2,7 +2,6 @@
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 using SourceName.Api.Validators;
-using SourceName.Application.Commands;
 using SourceName.Application.Queries;
 
 namespace SourceName.Api.Test.Validators;

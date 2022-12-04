@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using MediatR;
+﻿using MediatR;
 using Moq;
 using NUnit.Framework;
 using Serilog;
@@ -26,9 +25,9 @@ public class LoggingBehaviorTest
     }
 
     [Test]
-    public void Should_Log_Information()
+    public async Task Should_Log_Information()
     {
-        _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
 
         _loggerMock.Verify(
             l => l.Information(

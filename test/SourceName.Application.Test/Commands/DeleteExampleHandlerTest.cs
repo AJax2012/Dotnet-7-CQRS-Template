@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoFixture;
-using FluentAssertions;
+﻿using AutoFixture;
 using Moq;
 using NUnit.Framework;
 using SourceName.Application.Commands;
