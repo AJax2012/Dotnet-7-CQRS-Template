@@ -8,8 +8,11 @@ namespace SourceName.Api.Loaders;
 
 public static class IdentityConfiguration
 {
-    public static void ConfigureIdentity(this IServiceCollection services, JwtBearerTokenSettings jwtSettings,
-        bool isDevelopment, ILogger logger)
+    public static void ConfigureIdentity(
+        this IServiceCollection services,
+        JwtBearerTokenSettings jwtSettings,
+        bool isDevelopment,
+        ILogger logger)
     {
         services.AddAuthentication(options =>
             {
@@ -34,7 +37,7 @@ public static class IdentityConfiguration
                     NameClaimType = "name",
                     RoleClaimType = "role",
                     ValidIssuer = jwtSettings.Issuer,
-                    ValidAudience = jwtSettings.Audience
+                    ValidAudience = jwtSettings.Audience,
                 };
 
                 options.Events = new JwtBearerEvents
@@ -53,7 +56,7 @@ public static class IdentityConfiguration
 
                         return Task.CompletedTask;
                     },
-                    OnTokenValidated = _ => Task.CompletedTask
+                    OnTokenValidated = _ => Task.CompletedTask,
                 };
             });
     }

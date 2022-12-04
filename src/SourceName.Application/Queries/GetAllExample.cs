@@ -9,7 +9,7 @@ namespace SourceName.Application.Queries;
 public static class GetAllExample
 {
     public record Query() : IRequest<Response>;
-    
+
     public class Handler : IRequestHandler<Query, Response>
     {
         private readonly IRepository _repository;
@@ -26,13 +26,13 @@ public static class GetAllExample
             var entities = await _repository.Get();
             Guard.Against.Null(entities);
             var result = _mapper.Map<IEnumerable<ExampleListItem>>(entities);
-            return new Response{ Results = result };
+            return new Response { Results = result };
         }
     }
 
     public record ExampleListItem(string Id, string Description);
     public record Response : CqrsResponse
     {
-        public IEnumerable<ExampleListItem> Results { get; init; }
+        public IEnumerable<ExampleListItem> Results { get; init; } = new List<ExampleListItem>();
     }
 }

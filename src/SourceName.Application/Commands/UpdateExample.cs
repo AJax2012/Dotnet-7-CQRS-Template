@@ -19,15 +19,15 @@ public static class UpdateExample
             _repository = repository;
             _currentUserService = currentUserService;
         }
-        
+
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
             var entity = await _repository.Get(request.Id);
-            var currentUser  = _currentUserService.Username ?? "test";
-            
+            var currentUser = _currentUserService.Username ?? "test";
+
             Guard.Against.Null(entity);
             Guard.Against.NullOrWhiteSpace(currentUser, "CurrentUser");
-            
+
             entity.Update(request.Description, currentUser);
             var response = await _repository.Update(entity);
             return new Response
@@ -42,8 +42,8 @@ public static class UpdateExample
 
     public record Response : CqrsResponse
     {
-        public string Id { get; init; }
-        public string Description { get; init; }
+        public string Id { get; init; } = null!;
+        public string Description { get; init; } = null!;
         public DateTime CreatedDate { get; init; }
         public DateTime UpdatedDate { get; init; }
     }

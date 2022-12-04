@@ -1,8 +1,8 @@
 ﻿using Ardalis.ApiEndpoints;
-using SourceName.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SourceName.Application.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SourceName.Api.Endpoints;
@@ -24,8 +24,7 @@ public class ExampleUpdateEndpoint : EndpointBaseAsync
         Summary = "Update example",
         Description = "Update example by id",
         OperationId = "Example.Update",
-        Tags = new []{ "ExampleEndpoint" }
-    )]
+        Tags = new[] { "ExampleEndpoint" })]
     public override async Task<ActionResult<UpdateExample.Response>> HandleAsync(UpdateExample.Command request, CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);

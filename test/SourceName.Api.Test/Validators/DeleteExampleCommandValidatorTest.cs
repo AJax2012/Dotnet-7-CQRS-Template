@@ -26,7 +26,7 @@ public class DeleteExampleCommandValidatorTest
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Id);
     }
-    
+
     [Test]
     public void Should_Have_Error_When_Id_Is_Too_Short()
     {

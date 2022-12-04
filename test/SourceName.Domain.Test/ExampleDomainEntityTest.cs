@@ -8,9 +8,9 @@ namespace SourceName.Domain.Test;
 
 public class ExampleDomainEntityTest
 {
-    private Fixture _fixture;
-    private ExampleDomainEntity _sut;
-    
+    private Fixture _fixture = null!;
+    private ExampleDomainEntity _sut = null!;
+
     [SetUp]
     public void Setup()
     {
@@ -57,12 +57,12 @@ public class ExampleDomainEntityTest
         using (DateTimeProvider.InjectActualDateTime(now))
         {
             _sut.Update(description2, updatedBy);
-            
+
             // new values
             _sut.Description.Should().Be(description2);
             _sut.UpdatedBy.Should().Be(updatedBy);
             _sut.UpdatedDate.Should().Be(now);
-            
+
             // make sure old values didn't change
             _sut.CreatedBy.Should().Be(createdBy);
             _sut.CreatedDate.Should().Be(yesterday);

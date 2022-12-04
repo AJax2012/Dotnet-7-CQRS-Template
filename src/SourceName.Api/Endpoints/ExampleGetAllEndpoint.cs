@@ -1,8 +1,8 @@
 ﻿using Ardalis.ApiEndpoints;
-using SourceName.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SourceName.Application.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SourceName.Api.Endpoints;
@@ -24,8 +24,7 @@ public class ExampleGetAllEndpoint : EndpointBaseAsync
         Summary = "Get Example List",
         Description = "Get all examples",
         OperationId = "Example.GetAll",
-        Tags = new []{ "ExampleEndpoint" }
-    )]
+        Tags = new[] { "ExampleEndpoint" })]
     public override async Task<ActionResult<GetAllExample.Response>> HandleAsync(CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new GetAllExample.Query(), cancellationToken);

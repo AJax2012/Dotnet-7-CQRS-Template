@@ -8,7 +8,7 @@ namespace SourceName.Application.Commands;
 public static class DeleteExample
 {
     public record Command(string Id) : IRequest;
-    
+
     public class Handler : IRequestHandler<Command>
     {
         private readonly IRepository _repository;

@@ -1,17 +1,12 @@
 using System.Reflection;
-using System.Text.Json;
 using Ardalis.GuardClauses;
-using AspNetCoreRateLimit;
-using AspNetCoreRateLimit.Redis;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
 using MediatR;
-using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Exceptions;
-using Serilog.Formatting.Json;
 using SourceName.Api.Filters;
 using SourceName.Api.Loaders;
 using SourceName.Application.Common.Behaviors;
@@ -19,7 +14,7 @@ using SourceName.Application.Loaders;
 using SourceName.Infrastructure.Data;
 using SourceName.Infrastructure.Loaders;
 using SourceName.Infrastructure.Loaders.Models;
-using StackExchange.Redis;
+
 using ILogger = Serilog.ILogger;
 
 const string allowClientOrigin = "SourceNameOrigin";
@@ -30,7 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add logger
 builder.Logging.ClearProviders();
 
-#if (EnableFileLogger)
+#if EnableFileLogger
 var loggingFilePath = builder.Configuration.GetSection("LoggingFilePath").Value;
 Guard.Against.NullOrWhiteSpace(loggingFilePath, "LoggingFilePath",
     "When using file logger for serilog, LoggingFilePath must be set in appsettings or environment configuration");
@@ -40,7 +35,7 @@ ILogger logger = new LoggerConfiguration()
     .Enrich.WithExceptionDetails()
     .Enrich.WithDemystifiedStackTraces()
     .WriteTo.Console()
-#if (EnableFileLogger)
+#if EnableFileLogger
     .WriteTo.File(new JsonFormatter(renderMessage: true), loggingFilePath, rollingInterval: RollingInterval.Day)
 #endif
     .CreateLogger();
@@ -91,7 +86,7 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "Bearer",
                 },
             },
-            new string[] {}
+            new string[] { }
         },
     });
 });
@@ -99,7 +94,8 @@ builder.Services.AddSwaggerGen(options =>
 // cors
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: allowClientOrigin,
+    options.AddPolicy(
+        name: allowClientOrigin,
         builder =>
         {
             builder.WithOrigins(clientRoute);
@@ -119,7 +115,7 @@ builder.Services.AddMvc().AddFluentValidation();
 builder.Services.AddHttpContextAccessor();
 
 // throttling
-#if (EnableRateLimiting)
+#if EnableRateLimiting
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
@@ -140,7 +136,7 @@ if (isDevelopment)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    // app.UseDeveloperExceptionPage();
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();

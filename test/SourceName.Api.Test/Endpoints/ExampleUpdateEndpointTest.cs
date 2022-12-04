@@ -33,15 +33,16 @@ public class ExampleUpdateEndpointTest
     {
         var command = _fixture.Create<UpdateExample.Command>();
         var response = _fixture.Create<UpdateExample.Response>();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.Is<UpdateExample.Command>(c =>
-                    c.Id == command.Id), It.IsAny<CancellationToken>()))
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.Is<UpdateExample.Command>(c => c.Id == command.Id),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(response)
             .Verifiable();
 
         await _sut.HandleAsync(command);
-        
+
         _mediatorMock.Verify();
     }
 
@@ -50,23 +51,23 @@ public class ExampleUpdateEndpointTest
     {
         var command = _fixture.Create<UpdateExample.Command>();
         var response = _fixture.Create<UpdateExample.Response>();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.Is<UpdateExample.Command>(c =>
-                    c.Id == command.Id && 
-                    c.Description == command.Description), 
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.Is<UpdateExample.Command>(c =>
+                        c.Id == command.Id &&
+                        c.Description == command.Description),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
 
         var actual = await _sut.HandleAsync(command);
 
         actual.Result.Should().NotBeNull().And.BeOfType<OkObjectResult>();
-        
+
         var okObjectResult = actual.Result as OkObjectResult;
 
         okObjectResult.Should().NotBeNull();
         okObjectResult!.Value.Should().NotBeNull()
             .And.BeSameAs(response);
-        
     }
 }

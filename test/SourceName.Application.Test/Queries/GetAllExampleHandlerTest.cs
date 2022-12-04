@@ -36,11 +36,11 @@ public class GetAllExampleHandlerTest
         var entities = _fixture.CreateMany<ExampleDomainEntity>(10);
         var result = _fixture.CreateMany<GetAllExample.ExampleListItem>(10);
         var command = new GetAllExample.Query();
-        
+
         _repositoryMock.Setup(r => r.Get())
             .ReturnsAsync(entities)
             .Verifiable();
-        
+
         _mapperMock.Setup(m =>
                 m.Map<IEnumerable<GetAllExample.ExampleListItem>>(
                     It.Is<IEnumerable<ExampleDomainEntity>>(e =>
@@ -48,7 +48,7 @@ public class GetAllExampleHandlerTest
             .Returns(result);
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
 
@@ -58,10 +58,10 @@ public class GetAllExampleHandlerTest
         var entities = _fixture.CreateMany<ExampleDomainEntity>(10);
         var result = _fixture.CreateMany<GetAllExample.ExampleListItem>(10);
         var command = new GetAllExample.Query();
-        
+
         _repositoryMock.Setup(r => r.Get())
             .ReturnsAsync(entities);
-        
+
         _mapperMock.Setup(m =>
                 m.Map<IEnumerable<GetAllExample.ExampleListItem>>(
                     It.Is<IEnumerable<ExampleDomainEntity>>(e =>
@@ -70,7 +70,7 @@ public class GetAllExampleHandlerTest
             .Verifiable();
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _mapperMock.Verify();
     }
 
@@ -93,6 +93,6 @@ public class GetAllExampleHandlerTest
         var actual = await _sut.Handle(command, CancellationToken.None);
 
         actual.Should().NotBeNull()
-            .And.BeEquivalentTo(new GetAllExample.Response {Results = expectedResponse});
+            .And.BeEquivalentTo(new GetAllExample.Response { Results = expectedResponse });
     }
 }

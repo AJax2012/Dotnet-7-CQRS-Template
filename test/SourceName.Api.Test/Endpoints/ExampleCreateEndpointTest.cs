@@ -33,15 +33,16 @@ public class ExampleCreateEndpointTest
     {
         var command = _fixture.Create<CreateExample.Command>();
         var response = _fixture.Create<CreateExample.Response>();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.Is<CreateExample.Command>(c =>
-                    c.Description == command.Description), It.IsAny<CancellationToken>()))
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.Is<CreateExample.Command>(c => c.Description == command.Description),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(response)
             .Verifiable();
 
         await _sut.HandleAsync(command);
-        
+
         _mediatorMock.Verify();
     }
 
@@ -50,27 +51,28 @@ public class ExampleCreateEndpointTest
     {
         var command = _fixture.Create<CreateExample.Command>();
         var response = _fixture.Build<CreateExample.Response>()
-            .With(r => r.ErrorMessage, (string) null)
+            .With(r => r.ErrorMessage, (string?)null)
             .With(r => r.StatusCode, HttpStatusCode.OK)
             .With(r => r.Description, command.Description)
             .WithAutoProperties()
             .Create();
 
-        _mediatorMock.Setup(m =>
-                m.Send(It.Is<CreateExample.Command>(c =>
-                    c.Description == command.Description), It.IsAny<CancellationToken>()))
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.Is<CreateExample.Command>(c => c.Description == command.Description),
+                    It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
 
         var actual = await _sut.HandleAsync(command);
 
         actual.Result.Should().NotBeNull().And.BeOfType<CreatedAtRouteResult>();
-        
+
         var createdAtResult = actual.Result as CreatedAtRouteResult;
 
-        createdAtResult.Value.Should().NotBeNull()
+        createdAtResult!.Value.Should().NotBeNull()
             .And.BeOfType<CreateExample.Response>()
             .And.BeSameAs(response);
-        
+
         createdAtResult.RouteName.Should().Be("GetExample");
         createdAtResult.RouteValues.Should().NotBeNull();
         createdAtResult.RouteValues!.Count.Should().Be(1);

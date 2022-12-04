@@ -29,8 +29,8 @@ public static class GetOneExample
 
     public record Response : CqrsResponse
     {
-        public string Id { get; init; }
-        public string Description { get; init; }
+        public string Id { get; init; } = null!;
+        public string Description { get; init; } = null!;
         public DateTime CreatedDate { get; init; }
         public DateTime UpdatedDate { get; init; }
     }

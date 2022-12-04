@@ -16,7 +16,7 @@ public class ExampleRepository : IRepository
     public async Task<ExampleDomainEntity> Get(string id)
     {
         var result = await _context.Examples.FirstOrDefaultAsync(x => x.Id == id);
-        return result;
+        return result!;
     }
 
     public async Task<IEnumerable<ExampleDomainEntity>> Get()
@@ -28,7 +28,7 @@ public class ExampleRepository : IRepository
     public async Task<ExampleDomainEntity> GetByDescription(string description)
     {
         var result = await _context.Examples.FirstOrDefaultAsync(x => x.Description == description);
-        return result;
+        return result!;
     }
 
     public async Task<ExampleDomainEntity> Create(ExampleDomainEntity entity)

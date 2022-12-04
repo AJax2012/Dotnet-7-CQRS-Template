@@ -6,12 +6,12 @@ using SourceName.Application.Contracts;
 
 namespace SourceName.Application.Common.Behaviors;
 
-public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
-    where TRequest : IRequest<TResponse> 
+public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
     where TResponse : CqrsResponse, new()
 {
     private readonly ILogger _logger;
-    private readonly IValidationHandler<TRequest> _validationHandler;
+    private readonly IValidationHandler<TRequest> _validationHandler = null!;
 
     public ValidationBehavior(ILogger logger)
     {
@@ -41,11 +41,11 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
             _logger.Warning("Validation failed for {Request}. Error: {Error}", requestName, result.Error);
             return new TResponse
             {
-                StatusCode = HttpStatusCode.BadRequest, 
+                StatusCode = HttpStatusCode.BadRequest,
                 ErrorMessage = result.Error,
             };
         }
-        
+
         _logger.Information("Validation successful for {Request}", requestName);
         return await next();
     }

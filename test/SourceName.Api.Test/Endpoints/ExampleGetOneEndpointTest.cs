@@ -33,15 +33,16 @@ public class ExampleGetOneEndpointTest
     {
         var id = _fixture.Create<string>();
         var response = _fixture.Create<GetOneExample.Response>();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.Is<GetOneExample.Query>(q => q.Id == id), 
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.Is<GetOneExample.Query>(q => q.Id == id),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(response)
             .Verifiable();
 
         await _sut.HandleAsync(id);
-        
+
         _mediatorMock.Verify();
     }
 
@@ -50,24 +51,25 @@ public class ExampleGetOneEndpointTest
     {
         var id = _fixture.Create<string>();
         var response = _fixture.Build<GetOneExample.Response>()
-            .With(r => r.ErrorMessage, (string) null)
+            .With(r => r.ErrorMessage, (string?)null)
             .With(r => r.StatusCode, HttpStatusCode.OK)
             .WithAutoProperties()
             .Create();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.IsAny<GetOneExample.Query>(), 
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.IsAny<GetOneExample.Query>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
 
         var actual = await _sut.HandleAsync(id);
-        
+
         actual.Result.Should().NotBeNull().And.BeOfType<OkObjectResult>();
         var result = actual.Result as OkObjectResult;
 
         result!.Value.Should().NotBeNull().And.BeOfType<GetOneExample.Response>();
         var value = result.Value as GetOneExample.Response;
-        
+
         value!.Should().NotBeNull().And.BeSameAs(response);
     }
 }

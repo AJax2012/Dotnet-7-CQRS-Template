@@ -1,9 +1,8 @@
-﻿using System.Net;
-using Ardalis.ApiEndpoints;
-using SourceName.Application.Commands;
+﻿using Ardalis.ApiEndpoints;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SourceName.Application.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SourceName.Api.Endpoints;
@@ -25,8 +24,7 @@ public class ExampleDeleteEndpoint : EndpointBaseAsync
         Summary = "Delete example",
         Description = "Delete example by id",
         OperationId = "Example.Delete",
-        Tags = new []{ "ExampleEndpoint" }
-    )]
+        Tags = new[] { "ExampleEndpoint" })]
     public override async Task<ActionResult> HandleAsync([FromRoute] string id, CancellationToken cancellationToken = default)
     {
         await _mediator.Send(new DeleteExample.Command(id), cancellationToken);

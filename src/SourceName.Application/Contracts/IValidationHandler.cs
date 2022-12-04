@@ -2,7 +2,9 @@
 
 namespace SourceName.Application.Contracts;
 
-public interface IValidationHandler {}
+public interface IValidationHandler
+{
+}
 
 public interface IValidationHandler<TRequest> : IValidationHandler
 {

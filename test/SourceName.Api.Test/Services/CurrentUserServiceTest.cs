@@ -10,7 +10,7 @@ namespace SourceName.Api.Test.Services;
 [TestFixture]
 public class CurrentUserServiceTest
 {
-    private Fixture _fixture;
+    private Fixture _fixture = null!;
     private Mock<IHttpContextAccessor> _httpContextAccessorMock = null!;
     private CurrentUserService _sut = null!;
 
@@ -26,10 +26,10 @@ public class CurrentUserServiceTest
         var username = _fixture.Create<string>();
 
         _httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        _httpContextAccessorMock.Setup(h => h.HttpContext.User.Identity.Name).Returns(username);
-        
+        _httpContextAccessorMock.Setup(h => h.HttpContext!.User.Identity!.Name).Returns(username);
+
         _sut = new CurrentUserService(_httpContextAccessorMock.Object);
-        
+
         var actual = _sut.Username;
 
         actual.Should().NotBeNull().And.Be(username);

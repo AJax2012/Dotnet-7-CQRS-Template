@@ -32,15 +32,16 @@ public class ExampleGetAllEndpointTest
     public async Task Handle_Should_Call_Mediator_Send()
     {
         var response = _fixture.Create<GetAllExample.Response>();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.IsAny<GetAllExample.Query>(), 
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.IsAny<GetAllExample.Query>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(response)
             .Verifiable();
 
         await _sut.HandleAsync();
-        
+
         _mediatorMock.Verify();
     }
 
@@ -48,19 +49,20 @@ public class ExampleGetAllEndpointTest
     public async Task Handle_Should_Return_201_With_Response()
     {
         var response = _fixture.Build<GetAllExample.Response>()
-            .With(r => r.ErrorMessage, (string) null)
+            .With(r => r.ErrorMessage, (string?)null)
             .With(r => r.StatusCode, HttpStatusCode.OK)
             .With(r => r.Results, _fixture.CreateMany<GetAllExample.ExampleListItem>(5))
             .WithAutoProperties()
             .Create();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.IsAny<GetAllExample.Query>(), 
+
+        _mediatorMock.Setup(
+                m => m.Send(
+                    It.IsAny<GetAllExample.Query>(),
                     It.IsAny<CancellationToken>()))
             .ReturnsAsync(response);
 
         var actual = await _sut.HandleAsync();
-        
+
         actual.Result.Should().NotBeNull().And.BeOfType<OkObjectResult>();
         var result = actual.Result as OkObjectResult;
 

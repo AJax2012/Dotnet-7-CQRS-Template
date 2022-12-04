@@ -29,16 +29,18 @@ public class LoggingBehaviorTest
     public void Should_Log_Information()
     {
         _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
-        
-        _loggerMock.Verify(l => l.Information(
-                It.Is<string>(s =>
-                    s == "{Request} is starting"),
-                It.Is<string>(v => v == "Query")), Times.Once);
 
-        _loggerMock.Verify(l => l.Information(
-                It.Is<string>(s =>
-                    s == "{Request} has finished in {Time} ms"),
+        _loggerMock.Verify(
+            l => l.Information(
+                It.Is<string>(s => s == "{Request} is starting"),
+                It.Is<string>(v => v == "Query")),
+            Times.Once);
+
+        _loggerMock.Verify(
+            l => l.Information(
+                It.Is<string>(s => s == "{Request} has finished in {Time} ms"),
                 It.Is<string>(v => v == "Query"),
-                It.IsAny<long>()), Times.Once);
+                It.IsAny<long>()),
+            Times.Once);
     }
 }

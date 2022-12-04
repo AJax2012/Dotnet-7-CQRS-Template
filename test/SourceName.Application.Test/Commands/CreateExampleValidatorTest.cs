@@ -32,9 +32,9 @@ public class CreateExampleValidatorTest
         var command = new CreateExample.Command(description);
 
         await _sut.Validate(command);
-        
-        _repositoryMock.Verify(r => 
-            r.GetByDescription(It.Is<string>(s => s == description)), 
+
+        _repositoryMock.Verify(
+            r => r.GetByDescription(It.Is<string>(s => s == description)),
             Times.Once);
     }
 
@@ -44,8 +44,8 @@ public class CreateExampleValidatorTest
         var description = _fixture.Create<string>();
         var command = new CreateExample.Command(description);
         var expectedResult = ValidationResult.Fail("Description already exists");
-        
-        _repositoryMock.Setup(r => 
+
+        _repositoryMock.Setup(r =>
                 r.GetByDescription(It.Is<string>(s => s == description)))
             .ReturnsAsync(new ExampleDomainEntity());
 

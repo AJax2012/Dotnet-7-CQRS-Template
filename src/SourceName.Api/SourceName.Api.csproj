@@ -5,18 +5,13 @@
         <PackageVersion>1.0</PackageVersion>
         <PackageId>AJax2012.Templates.CQRS</PackageId>
         <PackageTags>dotnet-new;templates</PackageTags>
-        <Title>SourceName</Title>
-        <Authors>Adam Gardner</Authors>
-        <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         
         <IncludeContentInPack>true</IncludeContentInPack>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <ContentTargetFolders>content</ContentTargetFolders>
       <UserSecretsId>80a9b21b-4097-4d63-a679-0fcb70700340</UserSecretsId>
-  </PropertyGroup>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />

@@ -33,14 +33,14 @@ public class GetOneExampleHandlerTest
     {
         var entity = CreateEntity();
         var command = new GetOneExample.Query(entity.Id);
-        
+
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(s => s == entity.Id)))
             .ReturnsAsync(entity)
             .Verifiable();
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
 

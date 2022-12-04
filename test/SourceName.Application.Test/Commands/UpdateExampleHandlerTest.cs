@@ -36,17 +36,17 @@ public class UpdateExampleHandlerTest
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
         var command = new UpdateExample.Command(entity.Id, description);
-        
+
         _currentUserServiceMock.Setup(c => c.Username)
             .Returns(username)
             .Verifiable();
-        
+
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(e => e == entity.Id)))
             .ReturnsAsync(entity);
-        
+
         _repositoryMock.Setup(r => r.Update(
-                It.Is<ExampleDomainEntity>(e => 
+                It.Is<ExampleDomainEntity>(e =>
                     e.Id == entity.Id &&
                     e.Description == entity.Description &&
                     e.UpdatedBy == entity.UpdatedBy &&
@@ -55,7 +55,7 @@ public class UpdateExampleHandlerTest
             .ReturnsAsync(entity);
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _currentUserServiceMock.Verify();
     }
 
@@ -67,28 +67,27 @@ public class UpdateExampleHandlerTest
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
         var command = new UpdateExample.Command(entity.Id, description);
-        
+
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
-        
+
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(e => e == entity.Id)))
             .ReturnsAsync(entity)
             .Verifiable();
-        
+
         _repositoryMock.Setup(r => r.Update(
-                It.Is<ExampleDomainEntity>(e => 
+                It.Is<ExampleDomainEntity>(e =>
                     e.Id == entity.Id &&
                     e.Description == entity.Description &&
                     e.UpdatedBy == entity.UpdatedBy &&
                     e.CreatedDate == entity.CreatedDate &&
                     e.UpdatedDate == entity.UpdatedDate)))
             .ReturnsAsync(entity);
-    
+
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
-    
 
     [Test]
     public async Task Should_Call_Repository_Update()
@@ -98,15 +97,15 @@ public class UpdateExampleHandlerTest
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
         var command = new UpdateExample.Command(entity.Id, description);
-        
+
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
-        
+
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(e => e == entity.Id)))
             .ReturnsAsync(entity);
-        
+
         _repositoryMock.Setup(r => r.Update(
-                It.Is<ExampleDomainEntity>(e => 
+                It.Is<ExampleDomainEntity>(e =>
                     e.Id == entity.Id &&
                     e.Description == entity.Description &&
                     e.UpdatedBy == entity.UpdatedBy &&
@@ -114,12 +113,12 @@ public class UpdateExampleHandlerTest
                     e.UpdatedDate == entity.UpdatedDate)))
             .ReturnsAsync(entity)
             .Verifiable();
-    
+
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
-    
+
     [Test]
     public async Task Should_Return_Response()
     {
@@ -128,15 +127,15 @@ public class UpdateExampleHandlerTest
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
         var command = new UpdateExample.Command(entity.Id, description);
-        
+
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
-        
+
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(e => e == entity.Id)))
             .ReturnsAsync(entity);
-        
+
         _repositoryMock.Setup(r => r.Update(
-                It.Is<ExampleDomainEntity>(e => 
+                It.Is<ExampleDomainEntity>(e =>
                     e.Id == entity.Id &&
                     e.Description == entity.Description &&
                     e.UpdatedBy == entity.UpdatedBy &&
@@ -144,9 +143,9 @@ public class UpdateExampleHandlerTest
                     e.UpdatedDate == entity.UpdatedDate)))
             .ReturnsAsync(entity)
             .Verifiable();
-    
+
         var actual = await _sut.Handle(command, CancellationToken.None);
-    
+
         actual.Should().NotBeNull().And.BeOfType<UpdateExample.Response>();
         actual.Id.Should().Be(entity.Id);
         actual.Description.Should().Be(description);

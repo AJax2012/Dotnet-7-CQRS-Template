@@ -34,14 +34,14 @@ public class DeleteExampleHandlerTest
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
         var command = new DeleteExample.Command(entity.Id);
-        
+
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(s => s == entity.Id)))
             .ReturnsAsync(entity)
             .Verifiable();
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
 
@@ -57,16 +57,16 @@ public class DeleteExampleHandlerTest
         _repositoryMock.Setup(r => r.Get(
                 It.Is<string>(s => s == entity.Id)))
             .ReturnsAsync(entity);
-        
+
         _repositoryMock.Setup(r => r.Delete(
-                It.Is<ExampleDomainEntity>(e => 
+                It.Is<ExampleDomainEntity>(e =>
                     e.Id == entity.Id &&
-                    e.Description == entity.Description && 
+                    e.Description == entity.Description &&
                     e.CreatedBy == entity.CreatedBy)))
             .Verifiable();
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
 }

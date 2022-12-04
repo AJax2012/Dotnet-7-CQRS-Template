@@ -35,14 +35,15 @@ public class ExampleDeleteEndpointTest
         var command = _fixture.Build<DeleteExample.Command>()
             .With(r => r.Id, id)
             .Create();
-        
+
         _mediatorMock.Setup(m =>
-                m.Send(It.Is<DeleteExample.Command>(c =>
-                    c.Id == command.Id), It.IsAny<CancellationToken>()))
+                m.Send(
+                    It.Is<DeleteExample.Command>(c => c.Id == command.Id),
+                    It.IsAny<CancellationToken>()))
             .Verifiable();
 
         await _sut.HandleAsync(id);
-        
+
         _mediatorMock.Verify();
     }
 
@@ -53,19 +54,20 @@ public class ExampleDeleteEndpointTest
         var command = _fixture.Build<DeleteExample.Command>()
             .With(r => r.Id, id)
             .Create();
-        
-        _mediatorMock.Setup(m =>
-                m.Send(It.Is<DeleteExample.Command>(c =>
-                    c.Id == command.Id), It.IsAny<CancellationToken>()));
+
+        _mediatorMock.Setup(
+            m => m.Send(
+                It.Is<DeleteExample.Command>(c => c.Id == command.Id),
+                It.IsAny<CancellationToken>()));
 
         var actual = await _sut.HandleAsync(id);
 
         actual.Should().NotBeNull().And.BeOfType<OkObjectResult>();
-        
+
         var okObjectResult = actual as OkObjectResult;
 
         okObjectResult.Should().NotBeNull();
         okObjectResult!.Value.Should().NotBeNull()
-            .And.BeEquivalentTo(new {id = id});
+            .And.BeEquivalentTo(new { id = id });
     }
 }

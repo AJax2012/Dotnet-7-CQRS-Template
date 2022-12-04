@@ -24,8 +24,7 @@ public class ExampleCreateEndpoint : EndpointBaseAsync
         Summary = "Create example",
         Description = "Create single example",
         OperationId = "Example.Create",
-        Tags = new []{ "ExampleEndpoint" }
-    )]
+        Tags = new[] { "ExampleEndpoint" })]
     public override async Task<ActionResult<CreateExample.Response>> HandleAsync(CreateExample.Command request, CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);

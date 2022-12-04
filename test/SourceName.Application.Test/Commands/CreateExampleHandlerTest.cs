@@ -36,19 +36,19 @@ public class CreateExampleHandlerTest
         var command = new CreateExample.Command(description);
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        
+
         _currentUserServiceMock.Setup(c => c.Username)
             .Returns(username)
             .Verifiable();
-        
+
         _repositoryMock.Setup(r => r.Create(
-                It.Is<ExampleDomainEntity>(e => 
-                    e.Description == entity.Description && 
+                It.Is<ExampleDomainEntity>(e =>
+                    e.Description == entity.Description &&
                     e.CreatedBy == entity.CreatedBy)))
             .ReturnsAsync(entity);
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _currentUserServiceMock.Verify();
     }
 
@@ -60,18 +60,18 @@ public class CreateExampleHandlerTest
         var command = new CreateExample.Command(description);
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        
+
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
-        
+
         _repositoryMock.Setup(r => r.Create(
-                It.Is<ExampleDomainEntity>(e => 
-                    e.Description == entity.Description && 
+                It.Is<ExampleDomainEntity>(e =>
+                    e.Description == entity.Description &&
                     e.CreatedBy == entity.CreatedBy)))
             .ReturnsAsync(entity)
             .Verifiable();
 
         await _sut.Handle(command, CancellationToken.None);
-        
+
         _repositoryMock.Verify();
     }
 
@@ -83,15 +83,15 @@ public class CreateExampleHandlerTest
         var command = new CreateExample.Command(description);
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        
+
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
-        
+
         _repositoryMock.Setup(r => r.Create(
                 It.Is<ExampleDomainEntity>(e =>
                     e.Description == entity.Description &&
                     e.CreatedBy == entity.CreatedBy)))
             .ReturnsAsync(entity);
-        
+
         var actual = await _sut.Handle(command, CancellationToken.None);
 
         actual.Should().NotBeNull().And.BeOfType<CreateExample.Response>();

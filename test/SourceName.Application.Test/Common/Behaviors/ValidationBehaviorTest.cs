@@ -22,7 +22,7 @@ public class ValidationBehaviorTest
     private Mock<IValidationHandler<TestHelper.Query>> _validationHandlerMock = null!;
     private Mock<RequestHandlerDelegate<TestHelper.Response>> _requestHandlerDelegateMock = null!;
     private TestHelper.Query _query = null!;
-    private ValidationBehavior<TestHelper.Query,TestHelper.Response> _sut = null!;
+    private ValidationBehavior<TestHelper.Query, TestHelper.Response> _sut = null!;
 
     [SetUp]
     public void SetUp()
@@ -36,55 +36,59 @@ public class ValidationBehaviorTest
     }
 
     [Test]
-    public async Task  Should_Log_Information_When_No_Validation_Handler()
+    public async Task Should_Log_Information_When_No_Validation_Handler()
     {
         var sut = new ValidationBehavior<TestHelper.Query, TestHelper.Response>(_loggerMock.Object);
         await sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
-        
-        _loggerMock.Verify(l => l.Information(
-            It.Is<string>(s => s == "{Request} does not have a validation handler configured"),
-            It.Is<string>(s => s == "Query")), Times.Once);
+
+        _loggerMock.Verify(
+            l => l.Information(
+                It.Is<string>(s => s == "{Request} does not have a validation handler configured"),
+                It.Is<string>(s => s == "Query")),
+            Times.Once);
     }
 
     [Test]
-    public async Task  Should_Call_Validator()
+    public async Task Should_Call_Validator()
     {
-        _validationHandlerMock.Setup(v => 
+        _validationHandlerMock.Setup(v =>
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Success)
             .Verifiable();
-        
+
         await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
-        
+
         _validationHandlerMock.Verify();
     }
 
     [Test]
-    public async Task  Should_Log_Warning_When_Validation_Unsuccessful()
+    public async Task Should_Log_Warning_When_Validation_Unsuccessful()
     {
         var error = _fixture.Create<string>();
-        
-        _validationHandlerMock.Setup(v => 
+
+        _validationHandlerMock.Setup(v =>
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Fail(error));
-        
+
         await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
-        
-        _loggerMock.Verify(l => l.Warning(
+
+        _loggerMock.Verify(
+            l => l.Warning(
             It.Is<string>(s => s == "Validation failed for {Request}. Error: {Error}"),
             It.Is<string>(s => s == "Query"),
-            It.Is<string>(s => s == error)), Times.Once);
+            It.Is<string>(s => s == error)),
+            Times.Once);
     }
 
     [Test]
     public async Task Should_Return_BadRequest_With_Error_When_Validation_Unsuccessful()
     {
         var error = _fixture.Create<string>();
-        
-        _validationHandlerMock.Setup(v => 
+
+        _validationHandlerMock.Setup(v =>
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Fail(error));
-        
+
         var actual = await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
 
         actual.Should().NotBeNull().And.BeOfType<TestHelper.Response>();
@@ -93,26 +97,28 @@ public class ValidationBehaviorTest
     }
 
     [Test]
-    public async Task  Should_Log_Information_When_Validation_Successful()
+    public async Task Should_Log_Information_When_Validation_Successful()
     {
-        _validationHandlerMock.Setup(v => 
+        _validationHandlerMock.Setup(v =>
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Success);
-        
+
         await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
-        
-        _loggerMock.Verify(l => l.Information(
+
+        _loggerMock.Verify(
+            l => l.Information(
             It.Is<string>(s => s == "Validation successful for {Request}"),
-            It.Is<string>(s => s == "Query")), Times.Once);
+            It.Is<string>(s => s == "Query")),
+            Times.Once);
     }
 
     [Test]
-    public async Task  Should_Return_Null_When_Validation_Successful()
+    public async Task Should_Return_Null_When_Validation_Successful()
     {
-        _validationHandlerMock.Setup(v => 
+        _validationHandlerMock.Setup(v =>
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Success);
-        
+
         var actual = await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
 
         actual.Should().BeNull();

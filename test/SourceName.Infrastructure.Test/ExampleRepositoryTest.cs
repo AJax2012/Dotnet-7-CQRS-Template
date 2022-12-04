@@ -17,7 +17,7 @@ public class ExampleRepositoryTest
     private Fixture _fixture = null!;
     private DbContextOptions<ExampleContext> _contextOptions = null!;
     private ExampleRepository _sut = null!;
-    
+
     [SetUp]
     public void Setup()
     {
@@ -34,12 +34,12 @@ public class ExampleRepositoryTest
     {
         var allData = CreateData();
         var expectedEntity = allData.First();
-        
+
         await using (var context = new ExampleContext(_contextOptions))
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 
@@ -59,7 +59,7 @@ public class ExampleRepositoryTest
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 
@@ -79,7 +79,7 @@ public class ExampleRepositoryTest
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 
@@ -110,12 +110,12 @@ public class ExampleRepositoryTest
     {
         var allData = CreateData();
         var expectedEntity = allData.First();
-        
+
         await using (var context = new ExampleContext(_contextOptions))
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 
@@ -135,7 +135,7 @@ public class ExampleRepositoryTest
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 
@@ -150,7 +150,7 @@ public class ExampleRepositoryTest
     public async Task Create_Should_Save_Entity_To_Database()
     {
         var entity = CreateData().First();
-        
+
         await using (var context = new ExampleContext(_contextOptions))
         {
             await context.Database.EnsureDeletedAsync();
@@ -170,16 +170,16 @@ public class ExampleRepositoryTest
     {
         var newDescription = _fixture.Create<string>();
         var updatedBy = _fixture.Create<string>();
-        
+
         var allData = CreateData();
-        
+
         var entity = allData.First();
-        
+
         await using (var context = new ExampleContext(_contextOptions))
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 
@@ -201,12 +201,12 @@ public class ExampleRepositoryTest
     {
         var allData = CreateData();
         var entity = allData.First();
-        
+
         await using (var context = new ExampleContext(_contextOptions))
         {
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
-            
+
             await context.Examples.AddRangeAsync(allData);
             await context.SaveChangesAsync();
 

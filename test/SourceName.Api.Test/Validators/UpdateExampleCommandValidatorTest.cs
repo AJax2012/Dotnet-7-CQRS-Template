@@ -40,7 +40,7 @@ public class UpdateExampleCommandValidatorTest
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Id);
     }
-    
+
     [Test]
     public void Should_Not_Have_Error_When_Id_Specified()
     {
