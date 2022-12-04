@@ -96,21 +96,21 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(
         name: allowClientOrigin,
-        builder =>
+        policy =>
         {
-            builder.WithOrigins(clientRoute);
-            builder.AllowAnyMethod();
-            builder.AllowAnyHeader();
-            builder.AllowCredentials();
+            policy.WithOrigins(clientRoute);
+            policy.AllowAnyMethod();
+            policy.AllowAnyHeader();
+            policy.AllowCredentials();
         });
-    options.AddPolicy(allowSwaggerOrigin, builder =>
+    options.AddPolicy(allowSwaggerOrigin, policy =>
     {
-        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
 
 builder.Services.AddControllers(opts => opts.Filters.Add(new ApiExceptionFilter(logger)));
-builder.Services.AddDbContext<ExampleContext>(builder => builder.UseInMemoryDatabase("example"));
+builder.Services.AddDbContext<ExampleContext>(opts => opts.UseInMemoryDatabase("example"));
 builder.Services.AddMvc().AddFluentValidation();
 builder.Services.AddHttpContextAccessor();
 

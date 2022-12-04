@@ -28,6 +28,6 @@ public class ExampleDeleteEndpoint : EndpointBaseAsync
     public override async Task<ActionResult> HandleAsync([FromRoute] string id, CancellationToken cancellationToken = default)
     {
         await _mediator.Send(new DeleteExample.Command(id), cancellationToken);
-        return Ok(new { id = id });
+        return Ok(new { id });
     }
 }

@@ -11,7 +11,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     where TResponse : CqrsResponse, new()
 {
     private readonly ILogger _logger;
-    private readonly IValidationHandler<TRequest> _validationHandler = null!;
+    private readonly IValidationHandler<TRequest>? _validationHandler;
 
     public ValidationBehavior(ILogger logger)
     {

@@ -6,7 +6,7 @@ namespace SourceName.Application.Test.TestUtils;
 
 public static class TestHelper
 {
-    public record Query() : IRequest<Response>;
+    public record Query : IRequest<Response>;
 
     public class Validator : IValidationHandler<Query>
     {

@@ -1,5 +1,4 @@
 ﻿using Ardalis.GuardClauses;
-using AutoMapper;
 using MediatR;
 using SourceName.Application.Common.Dtos;
 using SourceName.Application.Contracts;

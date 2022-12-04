@@ -64,6 +64,6 @@ public class ExampleDeleteEndpointTest
 
         okObjectResult.Should().NotBeNull();
         okObjectResult!.Value.Should().NotBeNull()
-            .And.BeEquivalentTo(new { id = id });
+            .And.BeEquivalentTo(new { id });
     }
 }

@@ -8,7 +8,7 @@ namespace SourceName.Application.Queries;
 
 public static class GetAllExample
 {
-    public record Query() : IRequest<Response>;
+    public record Query : IRequest<Response>;
 
     public class Handler : IRequestHandler<Query, Response>
     {

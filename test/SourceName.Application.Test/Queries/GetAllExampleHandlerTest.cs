@@ -29,8 +29,8 @@ public class GetAllExampleHandlerTest
     [Test]
     public async Task Should_Call_Repository_Get()
     {
-        var entities = _fixture.CreateMany<ExampleDomainEntity>(10);
-        var result = _fixture.CreateMany<GetAllExample.ExampleListItem>(10);
+        var entities = _fixture.CreateMany<ExampleDomainEntity>(10).ToList();
+        var result = _fixture.CreateMany<GetAllExample.ExampleListItem>(10).ToList();
         var command = new GetAllExample.Query();
 
         _repositoryMock.Setup(r => r.Get())
@@ -51,8 +51,8 @@ public class GetAllExampleHandlerTest
     [Test]
     public async Task Should_Call_Mapper_Map()
     {
-        var entities = _fixture.CreateMany<ExampleDomainEntity>(10);
-        var result = _fixture.CreateMany<GetAllExample.ExampleListItem>(10);
+        var entities = _fixture.CreateMany<ExampleDomainEntity>(10).ToList();
+        var result = _fixture.CreateMany<GetAllExample.ExampleListItem>(10).ToList();
         var command = new GetAllExample.Query();
 
         _repositoryMock.Setup(r => r.Get())
@@ -73,8 +73,8 @@ public class GetAllExampleHandlerTest
     [Test]
     public async Task Should_Return_Result()
     {
-        var entities = _fixture.CreateMany<ExampleDomainEntity>(10);
-        var expectedResponse = _fixture.CreateMany<GetAllExample.ExampleListItem>(10);
+        var entities = _fixture.CreateMany<ExampleDomainEntity>(10).ToList();
+        var expectedResponse = _fixture.CreateMany<GetAllExample.ExampleListItem>(10).ToList();
         var command = new GetAllExample.Query();
 
         _repositoryMock.Setup(r => r.Get())

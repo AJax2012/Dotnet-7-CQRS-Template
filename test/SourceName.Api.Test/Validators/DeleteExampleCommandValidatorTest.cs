@@ -30,7 +30,7 @@ public class DeleteExampleCommandValidatorTest
     public void Should_Have_Error_When_Id_Is_Too_Short()
     {
         var id = Guid.NewGuid().ToString()[..35];
-        var model = new DeleteExample.Command(id!);
+        var model = new DeleteExample.Command(id);
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Id);
     }

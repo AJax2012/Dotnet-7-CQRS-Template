@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using MediatR;
-using SourceName.Application.Common.Dtos;
 using SourceName.Application.Contracts;
 
 namespace SourceName.Application.Commands;
@@ -26,6 +25,4 @@ public static class DeleteExample
             return Unit.Value;
         }
     }
-
-    public record Response() : CqrsResponse;
 }
