@@ -37,7 +37,7 @@ public class ValidationBehaviorTest
     public async Task Should_Log_Information_When_No_Validation_Handler()
     {
         var sut = new ValidationBehavior<TestHelper.Query, TestHelper.Response>(_loggerMock.Object);
-        await sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        await sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         _loggerMock.Verify(
             l => l.Information(
@@ -54,7 +54,7 @@ public class ValidationBehaviorTest
             .ReturnsAsync(ValidationResult.Success)
             .Verifiable();
 
-        await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        await _sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         _validationHandlerMock.Verify();
     }
@@ -68,7 +68,7 @@ public class ValidationBehaviorTest
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Fail(error));
 
-        await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        await _sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         _loggerMock.Verify(
             l => l.Warning(
@@ -87,7 +87,7 @@ public class ValidationBehaviorTest
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Fail(error));
 
-        var actual = await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        var actual = await _sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         actual.Should().NotBeNull().And.BeOfType<TestHelper.Response>();
         actual.ErrorMessage.Should().NotBeNull().And.Be(error);
@@ -101,7 +101,7 @@ public class ValidationBehaviorTest
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Success);
 
-        await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        await _sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         _loggerMock.Verify(
             l => l.Information(
@@ -117,7 +117,7 @@ public class ValidationBehaviorTest
                 v.Validate(It.Is<TestHelper.Query>(q => q == _query)))
             .ReturnsAsync(ValidationResult.Success);
 
-        var actual = await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        var actual = await _sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         actual.Should().BeNull();
     }

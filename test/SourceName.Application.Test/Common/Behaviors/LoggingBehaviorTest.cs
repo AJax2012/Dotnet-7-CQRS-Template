@@ -27,7 +27,7 @@ public class LoggingBehaviorTest
     [Test]
     public async Task Should_Log_Information()
     {
-        await _sut.Handle(_query, CancellationToken.None, _requestHandlerDelegateMock.Object);
+        await _sut.Handle(_query, _requestHandlerDelegateMock.Object, CancellationToken.None);
 
         _loggerMock.Verify(
             l => l.Information(
