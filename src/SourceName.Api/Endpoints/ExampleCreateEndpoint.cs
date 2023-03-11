@@ -28,6 +28,12 @@ public class ExampleCreateEndpoint : EndpointBaseAsync
     public override async Task<ActionResult<CreateExample.Response>> HandleAsync(CreateExample.Command request, CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);
-        return CreatedAtRoute("GetExample", new { id = response.Id }, response);
+
+        if (response.IsError)
+        {
+            return BadRequest();
+        }
+
+        return CreatedAtRoute("GetExample", new { id = response.Value.Id }, response);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using ErrorOr;
 using MediatR;
 using SourceName.Application.Common.Dtos;
 using SourceName.Application.Contracts;
@@ -10,7 +11,7 @@ namespace SourceName.Application.Commands;
 
 public static class CreateExample
 {
-    public record Command(string Description) : IRequest<Response>;
+    public record Command(string Description) : IRequest<ErrorOr<Response>>;
 
     public class Validator : IValidationHandler<Command>
     {
@@ -28,7 +29,7 @@ public static class CreateExample
         }
     }
 
-    public class Handler : IRequestHandler<Command, Response>
+    public class Handler : IRequestHandler<Command, ErrorOr<Response>>
     {
         private readonly IRepository _repository;
         private readonly ICurrentUserService _currentUserService;
@@ -39,7 +40,7 @@ public static class CreateExample
             _currentUserService = currentUserService;
         }
 
-        public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
             // null check for example purposes only - cannot make JWT with this example
             var currentUser = _currentUserService.Username ?? "test";

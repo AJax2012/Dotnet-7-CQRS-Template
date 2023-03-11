@@ -92,7 +92,7 @@ public class CreateExampleHandlerTest
         var actual = await _sut.Handle(command, CancellationToken.None);
 
         actual.Should().NotBeNull().And.BeOfType<CreateExample.Response>();
-        actual.Id.Should().NotBeEmpty();
-        actual.Description.Should().Be(description);
+        actual.Value.Id.Should().NotBeEmpty();
+        actual.Value.Description.Should().Be(description);
     }
 }
