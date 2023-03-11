@@ -17,12 +17,11 @@ public static class DeleteExample
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var entity = await _repository.Get(request.Id);
             Guard.Against.Null(entity);
             await _repository.Delete(entity);
-            return Unit.Value;
         }
     }
 }
