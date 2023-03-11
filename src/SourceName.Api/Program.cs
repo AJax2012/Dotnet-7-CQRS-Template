@@ -111,7 +111,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers(opts => opts.Filters.Add(new ApiExceptionFilter(logger)));
 builder.Services.AddDbContext<ExampleContext>(opts => opts.UseInMemoryDatabase("example"));
-builder.Services.AddMvc().AddFluentValidation();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddHttpContextAccessor();
 
 // throttling
