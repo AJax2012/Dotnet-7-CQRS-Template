@@ -1,8 +1,13 @@
 ﻿using Ardalis.ApiEndpoints;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using SourceName.Api.Services;
 using SourceName.Application.Commands;
+using SourceName.Application.Common.Errors;
+
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SourceName.Api.Endpoints;
@@ -28,6 +33,6 @@ public class ExampleUpdateEndpoint : EndpointBaseAsync
     public override async Task<ActionResult<UpdateExample.Response>> HandleAsync(UpdateExample.Command request, CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(request, cancellationToken);
-        return Ok(response);
+        return response.MatchFirst(Ok, ErrorHandlingService.HandleError);
     }
 }

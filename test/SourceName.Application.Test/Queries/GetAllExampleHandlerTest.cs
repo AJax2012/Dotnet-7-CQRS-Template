@@ -88,7 +88,7 @@ public class GetAllExampleHandlerTest
 
         var actual = await _sut.Handle(command, CancellationToken.None);
 
-        actual.Should().NotBeNull()
+        actual.Value.Should().NotBeNull()
             .And.BeEquivalentTo(new GetAllExample.Response { Results = expectedResponse });
     }
 }

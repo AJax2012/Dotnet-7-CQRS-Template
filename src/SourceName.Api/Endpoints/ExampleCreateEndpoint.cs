@@ -1,8 +1,12 @@
 ﻿using Ardalis.ApiEndpoints;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using SourceName.Api.Services;
 using SourceName.Application.Commands;
+using SourceName.Application.Common.Errors;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace SourceName.Api.Endpoints;
@@ -29,11 +33,8 @@ public class ExampleCreateEndpoint : EndpointBaseAsync
     {
         var response = await _mediator.Send(request, cancellationToken);
 
-        if (response.IsError)
-        {
-            return BadRequest();
-        }
-
-        return CreatedAtRoute("GetExample", new { id = response.Value.Id }, response);
+        return response.MatchFirst(
+            entity => CreatedAtRoute("GetExample", new { id = entity.Id }, entity),
+            ErrorHandlingService.HandleError);
     }
 }

@@ -143,10 +143,10 @@ public class UpdateExampleHandlerTest
 
         var actual = await _sut.Handle(command, CancellationToken.None);
 
-        actual.Should().NotBeNull().And.BeOfType<UpdateExample.Response>();
-        actual.Id.Should().Be(entity.Id);
-        actual.Description.Should().Be(description);
-        actual.CreatedDate.Should().Be(entity.CreatedDate);
-        actual.UpdatedDate.Should().Be(entity.UpdatedDate);
+        actual.Value.Should().NotBeNull().And.BeOfType<UpdateExample.Response>();
+        actual.Value.Id.Should().Be(entity.Id);
+        actual.Value.Description.Should().Be(description);
+        actual.Value.CreatedDate.Should().Be(entity.CreatedDate);
+        actual.Value.UpdatedDate.Should().Be(entity.UpdatedDate);
     }
 }

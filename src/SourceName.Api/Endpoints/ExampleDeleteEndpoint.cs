@@ -2,6 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using SourceName.Api.Services;
 using SourceName.Application.Commands;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -27,7 +29,9 @@ public class ExampleDeleteEndpoint : EndpointBaseAsync
         Tags = new[] { "ExampleEndpoint" })]
     public override async Task<ActionResult> HandleAsync([FromRoute] string id, CancellationToken cancellationToken = default)
     {
-        await _mediator.Send(new DeleteExample.Command(id), cancellationToken);
-        return Ok(new { id });
+        var result = await _mediator.Send(new DeleteExample.Command(id), cancellationToken);
+        return result.MatchFirst(
+            _ => NoContent(),
+            ErrorHandlingService.HandleError);
     }
 }

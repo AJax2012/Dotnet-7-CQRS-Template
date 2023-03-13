@@ -51,7 +51,7 @@ public class GetOneExampleHandlerTest
 
         var actual = await _sut.Handle(command, CancellationToken.None);
 
-        actual.Should().NotBeNull()
+        actual.Value.Should().NotBeNull()
             .And.BeEquivalentTo(new GetOneExample.Response
             {
                 Id = entity.Id,

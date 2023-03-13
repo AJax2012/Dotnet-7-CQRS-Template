@@ -1,5 +1,4 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using ILogger = Serilog.ILogger;
 
@@ -15,7 +14,6 @@ public class ApiExceptionFilter : ExceptionFilterAttribute
         _logger = logger;
         _handlers = new Dictionary<Type, Action<ExceptionContext>>
         {
-            { typeof(NotFoundException), HandleNotFoundException },
             { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
         };
     }
@@ -36,13 +34,6 @@ public class ApiExceptionFilter : ExceptionFilterAttribute
         }
 
         HandleUnknownException(context);
-    }
-
-    private void HandleNotFoundException(ExceptionContext context)
-    {
-        _logger.Error(context.Exception, "Object not found");
-        context.Result = new NotFoundResult();
-        context.ExceptionHandled = true;
     }
 
     private void HandleUnauthorizedAccessException(ExceptionContext context)

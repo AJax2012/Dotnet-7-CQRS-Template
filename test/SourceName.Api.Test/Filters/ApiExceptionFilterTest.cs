@@ -28,27 +28,6 @@ public class ApiExceptionFilterTest
     }
 
     [Test]
-    public void OnException_Should_Handle_NotFound_Exception()
-    {
-        var actionContext = _fixture.Build<ActionContext>()
-            .With(ac => ac.ActionDescriptor, new ActionDescriptor())
-            .With(ac => ac.HttpContext, new DefaultHttpContext())
-            .WithAutoProperties()
-            .Create();
-
-        var context = new ExceptionContext(actionContext, new List<IFilterMetadata>())
-        {
-            Exception = _fixture.Create<NotFoundException>(),
-            HttpContext = new DefaultHttpContext(),
-        };
-
-        _sut.OnException(context);
-
-        context.Result.Should().NotBeNull().And.BeOfType<NotFoundResult>();
-        context.ExceptionHandled.Should().BeTrue();
-    }
-
-    [Test]
     public void OnException_Should_Handle_UnauthorizedAccessException_Exception()
     {
         var actionContext = _fixture.Build<ActionContext>()

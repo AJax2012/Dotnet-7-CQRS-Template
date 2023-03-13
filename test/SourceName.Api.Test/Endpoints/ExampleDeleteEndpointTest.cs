@@ -58,12 +58,10 @@ public class ExampleDeleteEndpointTest
 
         var actual = await _sut.HandleAsync(id);
 
-        actual.Should().NotBeNull().And.BeOfType<OkObjectResult>();
+        actual.Should().NotBeNull().And.BeOfType<NoContentResult>();
 
-        var okObjectResult = actual as OkObjectResult;
+        var okObjectResult = actual as NoContentResult;
 
         okObjectResult.Should().NotBeNull();
-        okObjectResult!.Value.Should().NotBeNull()
-            .And.BeEquivalentTo(new { id });
     }
 }

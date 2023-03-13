@@ -1,7 +1,7 @@
-﻿using Ardalis.GuardClauses;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
 using SourceName.Application.Common.Dtos;
+using SourceName.Application.Common.Errors;
 using SourceName.Application.Contracts;
 using SourceName.Domain;
 
@@ -43,14 +43,23 @@ public static class CreateExample
         public async Task<ErrorOr<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
             // null check for example purposes only - cannot make JWT with this example
-            var currentUser = _currentUserService.Username ?? "test";
-            Guard.Against.NullOrWhiteSpace(currentUser, "CurrentUser");
+            var currentUser = _currentUserService.Username;
+
+            if (currentUser is null)
+            {
+                return Errors.User.NotFound;
+            }
 
             var entity = new ExampleDomainEntity();
             entity.Create(request.Description, currentUser);
 
             var response = await _repository.Create(entity);
-            Guard.Against.Null(response);
+
+            if (response is null)
+            {
+                return Errors.Entity.CreateError;
+            }
+
             return new Response { Id = response.Id, Description = response.Description };
         }
     }

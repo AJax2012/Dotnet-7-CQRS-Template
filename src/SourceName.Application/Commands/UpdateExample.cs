@@ -1,15 +1,16 @@
-﻿using Ardalis.GuardClauses;
+﻿using ErrorOr;
 using MediatR;
 using SourceName.Application.Common.Dtos;
+using SourceName.Application.Common.Errors;
 using SourceName.Application.Contracts;
 
 namespace SourceName.Application.Commands;
 
 public static class UpdateExample
 {
-    public record Command(string Id, string Description) : IRequest<Response>;
+    public record Command(string Id, string Description) : IRequest<ErrorOr<Response>>;
 
-    public class Handler : IRequestHandler<Command, Response>
+    public class Handler : IRequestHandler<Command, ErrorOr<Response>>
     {
         private readonly IRepository _repository;
         private readonly ICurrentUserService _currentUserService;
@@ -20,16 +21,30 @@ public static class UpdateExample
             _currentUserService = currentUserService;
         }
 
-        public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Response>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var entity = await _repository.Get(request.Id);
-            var currentUser = _currentUserService.Username ?? "test";
+            var currentUser = _currentUserService.Username;
 
-            Guard.Against.Null(entity);
-            Guard.Against.NullOrWhiteSpace(currentUser, "CurrentUser");
+            if (string.IsNullOrWhiteSpace(currentUser))
+            {
+                return Errors.User.NotFound;
+            }
+
+            var entity = await _repository.Get(request.Id);
+
+            if (entity is null)
+            {
+                return Errors.Entity.NotFound;
+            }
 
             entity.Update(request.Description, currentUser);
             var response = await _repository.Update(entity);
+
+            if (response is null)
+            {
+                return Errors.Entity.UpdateError;
+            }
+
             return new Response
             {
                 Id = response.Id,

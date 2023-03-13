@@ -1,15 +1,16 @@
-﻿using Ardalis.GuardClauses;
+﻿using ErrorOr;
 using MediatR;
 using SourceName.Application.Common.Dtos;
+using SourceName.Application.Common.Errors;
 using SourceName.Application.Contracts;
 
 namespace SourceName.Application.Queries;
 
 public static class GetOneExample
 {
-    public record Query(string Id) : IRequest<Response>;
+    public record Query(string Id) : IRequest<ErrorOr<Response>>;
 
-    public class Handler : IRequestHandler<Query, Response>
+    public class Handler : IRequestHandler<Query, ErrorOr<Response>>
     {
         private readonly IRepository _repository;
 
@@ -18,10 +19,15 @@ public static class GetOneExample
             _repository = repository;
         }
 
-        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<Response>> Handle(Query request, CancellationToken cancellationToken)
         {
             var entity = await _repository.Get(request.Id);
-            Guard.Against.Null(entity);
+
+            if (entity is null)
+            {
+                return Errors.Entity.NotFound;
+            }
+
             return new Response { Id = entity.Id, Description = entity.Description, CreatedDate = entity.CreatedDate, UpdatedDate = entity.UpdatedDate };
         }
     }

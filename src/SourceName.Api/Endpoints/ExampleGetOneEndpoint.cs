@@ -2,6 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using SourceName.Api.Services;
 using SourceName.Application.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -28,6 +30,6 @@ public class ExampleGetOneEndpoint : EndpointBaseAsync
     public override async Task<ActionResult<GetOneExample.Response>> HandleAsync([FromRoute] string id, CancellationToken cancellationToken = default)
     {
         var response = await _mediator.Send(new GetOneExample.Query(id), cancellationToken);
-        return Ok(response);
+        return response.MatchFirst(Ok, ErrorHandlingService.HandleError);
     }
 }
