@@ -8,9 +8,9 @@ namespace SourceName.Application.Commands;
 
 public static class UpdateExample
 {
-    public record Command(string Id, string Description) : IRequest<ErrorOr<Response>>;
+    public record UpdateCommand(string Id, string Description) : IRequest<ErrorOr<UpdateResponse>>;
 
-    public class Handler : IRequestHandler<Command, ErrorOr<Response>>
+    public class Handler : IRequestHandler<UpdateCommand, ErrorOr<UpdateResponse>>
     {
         private readonly IRepository _repository;
         private readonly ICurrentUserService _currentUserService;
@@ -21,9 +21,9 @@ public static class UpdateExample
             _currentUserService = currentUserService;
         }
 
-        public async Task<ErrorOr<Response>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<UpdateResponse>> Handle(UpdateCommand request, CancellationToken cancellationToken)
         {
-            var currentUser = _currentUserService.Username;
+            var currentUser = _currentUserService.Username ?? "test";
 
             if (string.IsNullOrWhiteSpace(currentUser))
             {
@@ -37,6 +37,11 @@ public static class UpdateExample
                 return Errors.Entity.NotFound;
             }
 
+            if (entity.CreatedBy != currentUser)
+            {
+                return Errors.User.Unauthorized;
+            }
+
             entity.Update(request.Description, currentUser);
             var response = await _repository.Update(entity);
 
@@ -45,7 +50,7 @@ public static class UpdateExample
                 return Errors.Entity.UpdateError;
             }
 
-            return new Response
+            return new UpdateResponse
             {
                 Id = response.Id,
                 Description = response.Description,
@@ -55,7 +60,7 @@ public static class UpdateExample
         }
     }
 
-    public record Response : CqrsResponse
+    public record UpdateResponse : CqrsResponse
     {
         public string Id { get; init; } = null!;
         public string Description { get; init; } = null!;

@@ -1,10 +1,13 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Text.Json;
+
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Hosting;
+
 using Moq;
 using NUnit.Framework;
 using Serilog;
@@ -15,70 +18,42 @@ namespace SourceName.Api.Test.Filters;
 [TestFixture]
 public class ApiExceptionFilterTest
 {
-    private Fixture _fixture = null!;
-    private Mock<ILogger> _logger = null!;
-    private ApiExceptionFilter _sut = null!;
+    private HttpContext _context = null!;
+    private Mock<ILogger> _loggerMock = null!;
+    private Mock<IHostEnvironment> _hostEnvironmentMock = null!;
+    private ApiExceptionMiddleware _sut = null!;
 
     [SetUp]
     public void SetUp()
     {
-        _fixture = new Fixture();
-        _logger = new Mock<ILogger>();
-        _sut = new ApiExceptionFilter(_logger.Object);
+        _context = new DefaultHttpContext();
+        _loggerMock = new Mock<ILogger>();
+        _hostEnvironmentMock = new Mock<IHostEnvironment>();
     }
 
     [Test]
-    public void OnException_Should_Handle_UnauthorizedAccessException_Exception()
+    public async Task InvokeAsync_Should_Handle_UnauthorizedAccessException_Exception()
     {
-        var actionContext = _fixture.Build<ActionContext>()
-            .With(ac => ac.ActionDescriptor, new ActionDescriptor())
-            .With(ac => ac.HttpContext, new DefaultHttpContext())
-            .WithAutoProperties()
-            .Create();
+        var next = new RequestDelegate(_ => Task.FromException<UnauthorizedAccessException>(new UnauthorizedAccessException()));
+        _sut = new ApiExceptionMiddleware(next, _loggerMock.Object, _hostEnvironmentMock.Object);
 
-        var context = new ExceptionContext(actionContext, new List<IFilterMetadata>())
-        {
-            Exception = _fixture.Create<UnauthorizedAccessException>(),
-            HttpContext = new DefaultHttpContext(),
-        };
+        await _sut.InvokeAsync(_context);
 
-        _sut.OnException(context);
-
-        context.Result.Should().NotBeNull().And.BeOfType<UnauthorizedResult>();
-        context.ExceptionHandled.Should().BeTrue();
+        _context.Should().NotBeNull();
+        _context.Response.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
+        _context.Response.ContentType.Should().Be("application/json");
     }
 
     [Test]
-    public void OnException_Should_Handle_UnknownException()
+    public async Task InvokeAsync_Should_Handle_UnknownException()
     {
-        var actionContext = _fixture.Build<ActionContext>()
-            .With(ac => ac.ActionDescriptor, new ActionDescriptor())
-            .With(ac => ac.HttpContext, new DefaultHttpContext())
-            .WithAutoProperties()
-            .Create();
+        var next = new RequestDelegate(_ => Task.FromException<Exception>(new Exception()));
+        _sut = new ApiExceptionMiddleware(next, _loggerMock.Object, _hostEnvironmentMock.Object);
 
-        var context = new ExceptionContext(actionContext, new List<IFilterMetadata>())
-        {
-            Exception = _fixture.Create<TimeoutException>(),
-            HttpContext = new DefaultHttpContext(),
-        };
+        await _sut.InvokeAsync(_context);
 
-        var details = new ProblemDetails
-        {
-            Status = StatusCodes.Status500InternalServerError,
-            Title = "An error occurred while processing your request.",
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
-            Detail = context.Exception.Message,
-        };
-
-        _sut.OnException(context);
-
-        context.ExceptionHandled.Should().BeTrue();
-
-        context.Result.Should().NotBeNull().And.BeOfType<ObjectResult>();
-        var result = context.Result as ObjectResult;
-
-        result!.StatusCode.Should().Be(500);
-        result.Value.Should().BeEquivalentTo(details);
+        _context.Should().NotBeNull();
+        _context.Response.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
+        _context.Response.ContentType.Should().Be("application/json");
     }
 }

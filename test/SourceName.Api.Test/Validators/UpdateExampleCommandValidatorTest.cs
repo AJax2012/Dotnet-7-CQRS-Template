@@ -25,7 +25,7 @@ public class UpdateExampleCommandValidatorTest
     public void Should_Have_Error_When_Id_Is_Null_Or_Empty(string? id)
     {
         var description = _fixture.Create<string>();
-        var model = new UpdateExample.Command(id!, description);
+        var model = new UpdateExample.UpdateCommand(id!, description);
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Id);
     }
@@ -35,7 +35,7 @@ public class UpdateExampleCommandValidatorTest
     {
         var id = Guid.NewGuid().ToString()[..35];
         var description = _fixture.Create<string>();
-        var model = new UpdateExample.Command(id, description);
+        var model = new UpdateExample.UpdateCommand(id, description);
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Id);
     }
@@ -45,7 +45,7 @@ public class UpdateExampleCommandValidatorTest
     {
         var id = Guid.NewGuid().ToString();
         var description = _fixture.Create<string>();
-        var model = new UpdateExample.Command(id, description);
+        var model = new UpdateExample.UpdateCommand(id, description);
         var result = _sut.TestValidate(model);
         result.ShouldNotHaveValidationErrorFor(c => c.Id);
     }
@@ -56,7 +56,7 @@ public class UpdateExampleCommandValidatorTest
     public void Should_Have_Error_When_Description_Is_Null_Or_Empty(string? description)
     {
         var id = Guid.NewGuid().ToString();
-        var model = new UpdateExample.Command(id, description!);
+        var model = new UpdateExample.UpdateCommand(id, description!);
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Description);
     }
@@ -66,7 +66,7 @@ public class UpdateExampleCommandValidatorTest
     {
         var id = Guid.NewGuid().ToString();
         var description = _fixture.Create<string>();
-        var model = new UpdateExample.Command(id, description);
+        var model = new UpdateExample.UpdateCommand(id, description);
         var result = _sut.TestValidate(model);
         result.ShouldNotHaveValidationErrorFor(c => c.Description);
     }

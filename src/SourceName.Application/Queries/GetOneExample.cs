@@ -8,9 +8,9 @@ namespace SourceName.Application.Queries;
 
 public static class GetOneExample
 {
-    public record Query(string Id) : IRequest<ErrorOr<Response>>;
+    public record Query(string Id) : IRequest<ErrorOr<GetOneResponse>>;
 
-    public class Handler : IRequestHandler<Query, ErrorOr<Response>>
+    public class Handler : IRequestHandler<Query, ErrorOr<GetOneResponse>>
     {
         private readonly IRepository _repository;
 
@@ -19,7 +19,7 @@ public static class GetOneExample
             _repository = repository;
         }
 
-        public async Task<ErrorOr<Response>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<GetOneResponse>> Handle(Query request, CancellationToken cancellationToken)
         {
             var entity = await _repository.Get(request.Id);
 
@@ -28,11 +28,11 @@ public static class GetOneExample
                 return Errors.Entity.NotFound;
             }
 
-            return new Response { Id = entity.Id, Description = entity.Description, CreatedDate = entity.CreatedDate, UpdatedDate = entity.UpdatedDate };
+            return new GetOneResponse { Id = entity.Id, Description = entity.Description, CreatedDate = entity.CreatedDate, UpdatedDate = entity.UpdatedDate };
         }
     }
 
-    public record Response : CqrsResponse
+    public record GetOneResponse : CqrsResponse
     {
         public string Id { get; init; } = null!;
         public string Description { get; init; } = null!;

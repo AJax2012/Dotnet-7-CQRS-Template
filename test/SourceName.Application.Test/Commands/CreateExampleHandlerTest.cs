@@ -30,7 +30,7 @@ public class CreateExampleHandlerTest
     {
         var description = _fixture.Create<string>();
         var username = _fixture.Create<string>();
-        var command = new CreateExample.Command(description);
+        var command = new CreateExample.CreateCommand(description);
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
 
@@ -54,7 +54,7 @@ public class CreateExampleHandlerTest
     {
         var description = _fixture.Create<string>();
         var username = _fixture.Create<string>();
-        var command = new CreateExample.Command(description);
+        var command = new CreateExample.CreateCommand(description);
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
 
@@ -77,7 +77,7 @@ public class CreateExampleHandlerTest
     {
         var description = _fixture.Create<string>();
         var username = _fixture.Create<string>();
-        var command = new CreateExample.Command(description);
+        var command = new CreateExample.CreateCommand(description);
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
 
@@ -91,7 +91,7 @@ public class CreateExampleHandlerTest
 
         var actual = await _sut.Handle(command, CancellationToken.None);
 
-        actual.Value.Should().NotBeNull().And.BeOfType<CreateExample.Response>();
+        actual.Value.Should().NotBeNull().And.BeOfType<CreateExample.CreatedResponse>();
         actual.Value.Id.Should().NotBeEmpty();
         actual.Value.Description.Should().Be(description);
     }

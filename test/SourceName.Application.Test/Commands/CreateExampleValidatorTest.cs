@@ -28,7 +28,7 @@ public class CreateExampleValidatorTest
     public async Task Should_Call_Repository_GetByDescription()
     {
         var description = _fixture.Create<string>();
-        var command = new CreateExample.Command(description);
+        var command = new CreateExample.CreateCommand(description);
 
         await _sut.Validate(command);
 
@@ -41,7 +41,7 @@ public class CreateExampleValidatorTest
     public async Task Should_Return_Failure_When_Result_Not_Null()
     {
         var description = _fixture.Create<string>();
-        var command = new CreateExample.Command(description);
+        var command = new CreateExample.CreateCommand(description);
         var expectedResult = ValidationResult.Fail("Description already exists");
 
         _repositoryMock.Setup(r =>
@@ -57,7 +57,7 @@ public class CreateExampleValidatorTest
     public async Task Should_Return_Success_When_Result_Null()
     {
         var description = _fixture.Create<string>();
-        var command = new CreateExample.Command(description);
+        var command = new CreateExample.CreateCommand(description);
         var expectedResult = ValidationResult.Success;
 
         var actual = await _sut.Validate(command);

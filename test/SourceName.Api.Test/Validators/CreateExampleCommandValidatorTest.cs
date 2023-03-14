@@ -24,7 +24,7 @@ public class CreateExampleCommandValidatorTest
     [TestCase("   ")]
     public void Should_Have_Error_When_Description_Is_Null_Or_Empty(string? description)
     {
-        var model = new CreateExample.Command(description!);
+        var model = new CreateExample.CreateCommand(description!);
         var result = _sut.TestValidate(model);
         result.ShouldHaveValidationErrorFor(c => c.Description);
     }
@@ -33,7 +33,7 @@ public class CreateExampleCommandValidatorTest
     public void Should_Not_Have_Error_When_Description_Specified()
     {
         var description = _fixture.Create<string>();
-        var model = new CreateExample.Command(description);
+        var model = new CreateExample.CreateCommand(description);
         var result = _sut.TestValidate(model);
         result.ShouldNotHaveValidationErrorFor(c => c.Description);
     }

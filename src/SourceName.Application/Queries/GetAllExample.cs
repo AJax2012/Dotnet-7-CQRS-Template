@@ -12,9 +12,9 @@ namespace SourceName.Application.Queries;
 
 public static class GetAllExample
 {
-    public record Query : IRequest<ErrorOr<Response>>;
+    public record Query : IRequest<ErrorOr<GetAllResponse>>;
 
-    public class Handler : IRequestHandler<Query, ErrorOr<Response>>
+    public class Handler : IRequestHandler<Query, ErrorOr<GetAllResponse>>
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
@@ -25,7 +25,7 @@ public static class GetAllExample
             _mapper = mapper;
         }
 
-        public async Task<ErrorOr<Response>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<GetAllResponse>> Handle(Query request, CancellationToken cancellationToken)
         {
             var entities = await _repository.Get();
 
@@ -35,12 +35,12 @@ public static class GetAllExample
             }
 
             var result = _mapper.Map<IEnumerable<ExampleListItem>>(entities);
-            return new Response { Results = result };
+            return new GetAllResponse { Results = result };
         }
     }
 
     public record ExampleListItem(string Id, string Description);
-    public record Response : CqrsResponse
+    public record GetAllResponse : CqrsResponse
     {
         public IEnumerable<ExampleListItem> Results { get; init; } = new List<ExampleListItem>();
     }

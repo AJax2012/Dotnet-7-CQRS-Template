@@ -32,7 +32,7 @@ public class UpdateExampleHandlerTest
         var username = _fixture.Create<string>();
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        var command = new UpdateExample.Command(entity.Id, description);
+        var command = new UpdateExample.UpdateCommand(entity.Id, description);
 
         _currentUserServiceMock.Setup(c => c.Username)
             .Returns(username)
@@ -63,7 +63,7 @@ public class UpdateExampleHandlerTest
         var username = _fixture.Create<string>();
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        var command = new UpdateExample.Command(entity.Id, description);
+        var command = new UpdateExample.UpdateCommand(entity.Id, description);
 
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
 
@@ -93,7 +93,7 @@ public class UpdateExampleHandlerTest
         var username = _fixture.Create<string>();
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        var command = new UpdateExample.Command(entity.Id, description);
+        var command = new UpdateExample.UpdateCommand(entity.Id, description);
 
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
 
@@ -123,7 +123,7 @@ public class UpdateExampleHandlerTest
         var username = _fixture.Create<string>();
         var entity = new ExampleDomainEntity();
         entity.Create(description, username);
-        var command = new UpdateExample.Command(entity.Id, description);
+        var command = new UpdateExample.UpdateCommand(entity.Id, description);
 
         _currentUserServiceMock.Setup(c => c.Username).Returns(username);
 
@@ -143,7 +143,7 @@ public class UpdateExampleHandlerTest
 
         var actual = await _sut.Handle(command, CancellationToken.None);
 
-        actual.Value.Should().NotBeNull().And.BeOfType<UpdateExample.Response>();
+        actual.Value.Should().NotBeNull().And.BeOfType<UpdateExample.UpdateResponse>();
         actual.Value.Id.Should().Be(entity.Id);
         actual.Value.Description.Should().Be(description);
         actual.Value.CreatedDate.Should().Be(entity.CreatedDate);

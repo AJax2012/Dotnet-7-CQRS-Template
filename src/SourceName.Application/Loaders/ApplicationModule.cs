@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SourceName.Application.Common.Mapping;
 
@@ -10,7 +9,12 @@ public static class ApplicationModule
     public static void AddApplicationModule(this IServiceCollection services)
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
-        services.AddMediatR(executingAssembly);
+
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssembly(executingAssembly);
+        });
+
         services.AddAutoMapper(typeof(MappingProfile));
     }
 }

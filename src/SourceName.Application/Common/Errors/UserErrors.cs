@@ -13,5 +13,8 @@ public static partial class Errors
     public static class User
     {
         public static readonly Error NotFound = Error.NotFound("User.NotFound", "Could not find User");
+
+        public static readonly Error Unauthorized =
+            Error.Validation("User.Unauthorized", "The user is unauthorized to perform this action");
     }
 }

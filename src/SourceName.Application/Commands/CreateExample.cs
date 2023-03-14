@@ -11,9 +11,9 @@ namespace SourceName.Application.Commands;
 
 public static class CreateExample
 {
-    public record Command(string Description) : IRequest<ErrorOr<Response>>;
+    public record CreateCommand(string Description) : IRequest<ErrorOr<CreatedResponse>>;
 
-    public class Validator : IValidationHandler<Command>
+    public class Validator : IValidationHandler<CreateCommand>
     {
         private readonly IRepository _repository;
 
@@ -22,14 +22,14 @@ public static class CreateExample
             _repository = repository;
         }
 
-        public async Task<ValidationResult> Validate(Command request)
+        public async Task<ValidationResult> Validate(CreateCommand request)
         {
             var result = await _repository.GetByDescription(request.Description);
             return result is not null ? ValidationResult.Fail("Description already exists") : ValidationResult.Success;
         }
     }
 
-    public class Handler : IRequestHandler<Command, ErrorOr<Response>>
+    public class Handler : IRequestHandler<CreateCommand, ErrorOr<CreatedResponse>>
     {
         private readonly IRepository _repository;
         private readonly ICurrentUserService _currentUserService;
@@ -40,10 +40,10 @@ public static class CreateExample
             _currentUserService = currentUserService;
         }
 
-        public async Task<ErrorOr<Response>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<CreatedResponse>> Handle(CreateCommand request, CancellationToken cancellationToken)
         {
             // null check for example purposes only - cannot make JWT with this example
-            var currentUser = _currentUserService.Username;
+            var currentUser = _currentUserService.Username ?? "test";
 
             if (currentUser is null)
             {
@@ -60,11 +60,11 @@ public static class CreateExample
                 return Errors.Entity.CreateError;
             }
 
-            return new Response { Id = response.Id, Description = response.Description };
+            return new CreatedResponse { Id = response.Id, Description = response.Description };
         }
     }
 
-    public record Response : CqrsResponse
+    public record CreatedResponse : CqrsResponse
     {
         public string Id { get; init; } = null!;
         public string Description { get; init; } = null!;

@@ -3,7 +3,7 @@ using SourceName.Application.Commands;
 
 namespace SourceName.Api.Validators;
 
-public class UpdateExampleCommandValidator : AbstractValidator<UpdateExample.Command>
+public class UpdateExampleCommandValidator : AbstractValidator<UpdateExample.UpdateCommand>
 {
     public UpdateExampleCommandValidator()
     {
