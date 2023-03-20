@@ -16,5 +16,6 @@ public static class ApplicationModule
         });
 
         services.AddAutoMapper(typeof(MappingProfile));
+        services.RegisterDependencies();
     }
 }

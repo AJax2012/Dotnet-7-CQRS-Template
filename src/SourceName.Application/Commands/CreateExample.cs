@@ -13,11 +13,11 @@ public static class CreateExample
 {
     public record CreateCommand(string Description) : IRequest<ErrorOr<CreatedResponse>>;
 
-    public class Validator : IValidationHandler<CreateCommand>
+    public class CreateCommandValidator : IValidationHandler<CreateCommand>
     {
         private readonly IRepository _repository;
 
-        public Validator(IRepository repository)
+        public CreateCommandValidator(IRepository repository)
         {
             _repository = repository;
         }
@@ -33,15 +33,24 @@ public static class CreateExample
     {
         private readonly IRepository _repository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IValidationHandler<CreateCommand> _validator;
 
-        public Handler(IRepository repository, ICurrentUserService currentUserService)
+        public Handler(IRepository repository, ICurrentUserService currentUserService, IValidationHandler<CreateCommand> validator)
         {
             _repository = repository;
             _currentUserService = currentUserService;
+            _validator = validator;
         }
 
         public async Task<ErrorOr<CreatedResponse>> Handle(CreateCommand request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.Validate(request);
+
+            if (!validationResult.IsSuccessful)
+            {
+                return Errors.Entity.Exists;
+            }
+
             // null check for example purposes only - cannot make JWT with this example
             var currentUser = _currentUserService.Username ?? "test";
 

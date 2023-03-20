@@ -1,8 +1,5 @@
-﻿using Ardalis.GuardClauses;
-using AutoMapper;
-
+﻿using AutoMapper;
 using ErrorOr;
-
 using MediatR;
 using SourceName.Application.Common.Dtos;
 using SourceName.Application.Common.Errors;
@@ -29,7 +26,7 @@ public static class GetAllExample
         {
             var entities = await _repository.Get();
 
-            if (entities is null)
+            if (entities?.Any() != true)
             {
                 return Errors.Entity.NotFound;
             }

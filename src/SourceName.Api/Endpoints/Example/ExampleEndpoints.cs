@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SourceName.Api.Endpoints.Internal;
 using SourceName.Application.Commands;
@@ -25,7 +26,7 @@ public class ExampleEndpoints : IEndpoint
 
         app.MapGet(BaseUrl, GetAllHandler.HandleAsync)
             .AllowAnonymous()
-            .Produces<GetAllExample.GetAllResponse>(StatusCodes.Status200OK)
+            .Produces<GetAllExample.GetAllResponse>()
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound)
             .WithName("GetExamples")
             .WithTags(Tag);
@@ -33,7 +34,7 @@ public class ExampleEndpoints : IEndpoint
         app.MapPut(BaseUrl, UpdateHandler.HandleAsync)
             .AllowAnonymous()
             .Accepts<UpdateExample.UpdateCommand>(ContentType)
-            .Produces<UpdateExample.UpdateResponse>(StatusCodes.Status200OK)
+            .Produces<UpdateExample.UpdateResponse>()
             .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound)
             .Produces<ProblemDetails>(StatusCodes.Status500InternalServerError)
@@ -42,9 +43,10 @@ public class ExampleEndpoints : IEndpoint
 
         app.MapDelete($"{BaseUrl}/{{id}}", async (
                     string id,
+                    IValidator<DeleteExample.Command> validator,
                     IMediator mediator,
                     CancellationToken cancellationToken) =>
-                await DeleteHandler.HandleAsync(new(id), mediator, cancellationToken))
+                await DeleteHandler.HandleAsync(new(id), validator, mediator, cancellationToken))
             .AllowAnonymous()
             .Produces(StatusCodes.Status204NoContent)
             .Produces<ProblemDetails>(StatusCodes.Status401Unauthorized)
@@ -54,9 +56,10 @@ public class ExampleEndpoints : IEndpoint
 
         app.MapGet($"{BaseUrl}/{{id}}", async (
                     string id,
+                    IValidator<GetOneExample.Query> validator,
                     IMediator mediator,
                     CancellationToken cancellationToken) =>
-                await GetOneHandler.HandleAsync(new(id), mediator, cancellationToken))
+                await GetOneHandler.HandleAsync(new(id), validator, mediator, cancellationToken))
             .AllowAnonymous()
             .Produces<GetOneExample.GetOneResponse>()
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound)

@@ -11,7 +11,7 @@ public static class ValidationConfiguration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.Scan(scan =>
-            scan.FromAssemblyOf<IValidationHandler>()
+            scan.FromAssemblyOf<IApiMarker>()
                 .AddClasses(classes => classes.AssignableTo<IValidationHandler>())
                 .AsImplementedInterfaces()
                 .WithTransientLifetime());

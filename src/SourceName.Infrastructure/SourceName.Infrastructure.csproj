@@ -11,8 +11,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\test\SourceName.Application.Test\SourceName.Application.Test.csproj" />
-      <ProjectReference Include="..\..\test\SourceName.Domain.Test\SourceName.Domain.Test.csproj" />
+      <ProjectReference Include="..\..\test\SourceName.Application.Unit.Test\SourceName.Application.Unit.Test.csproj" />
+      <ProjectReference Include="..\..\test\SourceName.Domain.Unit.Test\SourceName.Domain.Unit.Test.csproj" />
       <ProjectReference Include="..\SourceName.Application\SourceName.Application.csproj" />
       <ProjectReference Include="..\SourceName.Domain\SourceName.Domain.csproj" />
     </ItemGroup>

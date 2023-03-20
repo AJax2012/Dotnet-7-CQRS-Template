@@ -9,6 +9,6 @@ public class GetOneExampleQueryValidator : AbstractValidator<GetOneExample.Query
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .MinimumLength(1);
+            .Length(36);
     }
 }

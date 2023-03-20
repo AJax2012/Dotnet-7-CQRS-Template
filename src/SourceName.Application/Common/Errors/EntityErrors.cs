@@ -15,5 +15,8 @@ public static partial class Errors
         public static readonly Error NotFound = Error.NotFound("Entity.NotFound", "Could not find Entity");
         public static readonly Error CreateError = Error.Failure("Entity.Created", "Entity failed to be created");
         public static readonly Error UpdateError = Error.Failure("Entity.Updated", "Entity failed to be updated");
+
+        public static readonly Error
+            Exists = Error.Conflict("Entity.Exists", "Entity with description already exists.");
     }
 }

@@ -9,6 +9,6 @@ public class DeleteExampleCommandValidator : AbstractValidator<DeleteExample.Com
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .MinimumLength(36);
+            .Length(36);
     }
 }

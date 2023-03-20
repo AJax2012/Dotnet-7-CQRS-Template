@@ -14,14 +14,14 @@ public class CreateExampleValidatorTest
 {
     private Fixture _fixture = null!;
     private Mock<IRepository> _repositoryMock = null!;
-    private CreateExample.Validator _sut = null!;
+    private CreateExample.CreateCommandValidator _sut = null!;
 
     [SetUp]
     public void SetUp()
     {
         _fixture = new Fixture();
         _repositoryMock = new Mock<IRepository>();
-        _sut = new CreateExample.Validator(_repositoryMock.Object);
+        _sut = new CreateExample.CreateCommandValidator(_repositoryMock.Object);
     }
 
     [Test]

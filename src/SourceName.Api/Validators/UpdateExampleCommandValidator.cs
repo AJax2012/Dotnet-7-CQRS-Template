@@ -9,7 +9,7 @@ public class UpdateExampleCommandValidator : AbstractValidator<UpdateExample.Upd
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-            .MinimumLength(36);
+            .Length(36);
 
         RuleFor(x => x.Description)
             .NotEmpty()
