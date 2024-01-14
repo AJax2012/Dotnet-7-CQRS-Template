@@ -61,8 +61,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.RegisterDependencies()
         .AddInfrastructureModule()
-        .AddApplicationModule()
-        .AddInfrastructureModule();
+        .AddApplicationModule();
     
 #if EnableAuthenticationEndpoints
     builder.Services.ConfigureIdentity(jwtSettings!, isDevelopment, logger);
