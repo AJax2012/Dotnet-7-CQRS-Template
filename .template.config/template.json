@@ -23,6 +23,24 @@
       "description": "Enables rate limiting with redis",
       "datatype": "bool",
       "defaultValue": "true"
+    },
+    "EnableAuthenticationEndpoints": {
+      "type": "parameter",
+      "description": "Enables default dotnet 8 auth endpoints",
+      "datatype": "bool",
+      "defaultValue": "true"
     }
-  }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "EnableAuthenticationEndpoints",
+          "exclude": [
+            "**/SourceName.Infrastructure/Persistence/DbContext/"
+          ]
+        }
+      ]
+    }
+  ]
 }

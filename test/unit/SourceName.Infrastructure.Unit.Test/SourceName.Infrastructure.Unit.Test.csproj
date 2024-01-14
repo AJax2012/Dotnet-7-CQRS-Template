@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+    <RootNamespace>SourceName.Infrastructure.Unit.Test</RootNamespace>
+</PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\SourceName.Domain\SourceName.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\SourceName.Infrastructure\SourceName.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

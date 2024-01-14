@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>SourceName.Application.Unit.Test</RootNamespace>
+    </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\SourceName.Application\SourceName.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Behaviors\" />
+  </ItemGroup>
+
+</Project>

@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
+        <RootNamespace>SourceName.Api</RootNamespace>
         <PackageType>Template</PackageType>
-        <PackageVersion>1.0</PackageVersion>
+        <PackageVersion>2.0</PackageVersion>
         <PackageId>AJax2012.Templates.CQRS</PackageId>
         <PackageTags>dotnet-new;templates</PackageTags>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -14,29 +15,40 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.0" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
         <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
         <PackageReference Include="AspNetCoreRateLimit.Redis" Version="2.0.0" />
-        <PackageReference Include="ErrorOr" Version="1.2.1" />
-        <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-        <PackageReference Include="MediatR" Version="12.0.1" />
+        <PackageReference Include="FluentValidation" Version="11.9.0" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+        <PackageReference Include="MediatR" Version="12.2.0" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.3" />
-        <PackageReference Include="Scrutor" Version="4.2.1" />
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
         <PackageReference Include="Serilog.Enrichers.Demystifier" Version="1.0.2" />
         <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
-        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="2.0.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.0" />
+        <PackageReference Update="ErrorOr" Version="1.9.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\test\SourceName.Application.Unit.Test\SourceName.Application.Unit.Test.csproj" />
-        <ProjectReference Include="..\..\test\SourceName.Infrastructure.Unit.Test\SourceName.Infrastructure.Unit.Test.csproj" />
         <ProjectReference Include="..\SourceName.Application\SourceName.Application.csproj" />
+        <ProjectReference Include="..\SourceName.Contracts\SourceName.Contracts.csproj" />
         <ProjectReference Include="..\SourceName.Infrastructure\SourceName.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

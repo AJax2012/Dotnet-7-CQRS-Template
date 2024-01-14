@@ -1,21 +1,24 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using SourceName.Application.Common.Mapping;
 
 namespace SourceName.Application.Loaders;
 
 public static class ApplicationModule
 {
-    public static void AddApplicationModule(this IServiceCollection services)
+    public static IServiceCollection AddApplicationModule(this IServiceCollection services)
     {
-        var executingAssembly = Assembly.GetExecutingAssembly();
-
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssembly(executingAssembly);
+            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
-        services.AddAutoMapper(typeof(MappingProfile));
         services.RegisterDependencies();
+        
+        return services;
+    }
+
+    private static IServiceCollection RegisterDependencies(this IServiceCollection services)
+    {
+        return services;
     }
 }

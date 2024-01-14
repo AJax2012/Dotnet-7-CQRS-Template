@@ -1,6 +1,9 @@
-﻿using Serilog;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using Serilog.Exceptions;
-
+using Serilog.Formatting.Json;
+using Serilog.Sinks.SystemConsole.Themes;
 using ILogger = Serilog.ILogger;
 
 namespace SourceName.Api.Loaders;
@@ -20,9 +23,11 @@ Guard.Against.NullOrWhiteSpace(loggingFilePath, "LoggingFilePath",
         ILogger logger = new LoggerConfiguration()
             .Enrich.WithExceptionDetails()
             .Enrich.WithDemystifiedStackTraces()
-            .WriteTo.Console()
+#if DEBUG
+            .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+#endif
 #if EnableFileLogger
-    .WriteTo.File(new JsonFormatter(renderMessage: true), loggingFilePath, rollingInterval: RollingInterval.Day)
+            .WriteTo.File(new JsonFormatter(renderMessage: true), loggingFilePath, rollingInterval: RollingInterval.Day)
 #endif
             .CreateLogger();
 

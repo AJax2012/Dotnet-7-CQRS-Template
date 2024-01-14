@@ -19,13 +19,18 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "Docker": {
+      "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
+        "ASPNETCORE_HTTPS_PORT": "7193",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "publishAllPorts": true,
+      "httpPort": 5193,
+      "useSSL": false,
+      "sslPort": 7193
     }
   }
 }

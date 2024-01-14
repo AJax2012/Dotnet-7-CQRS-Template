@@ -1,4 +1,7 @@
-﻿namespace SourceName.Api.Loaders;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace SourceName.Api.Loaders;
 
 internal static class CorsConfiguration
 {

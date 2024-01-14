@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using SourceName.Contracts;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace SourceName.Api.Loaders;
 
@@ -9,6 +15,12 @@ internal static class SwaggerConfiguration
     {
         services.AddSwaggerGen(options =>
         {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "SourceName Api",
+            });
+            
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
@@ -18,6 +30,7 @@ internal static class SwaggerConfiguration
                 In = ParameterLocation.Header,
                 Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
             });
+            
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
@@ -32,6 +45,14 @@ internal static class SwaggerConfiguration
                     new string[] { }
                 },
             });
+            
+            options.SupportNonNullableReferenceTypes();
+            // options.ExampleFilters();
+
+            var apiFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, apiFileName));
+            var contractsFileName = $"{typeof(IContractMarker).Assembly.GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, contractsFileName));
         });
     }
 }

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>SourceName.Contracts</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation" Version="11.8.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.12" />
+        <PackageReference Update="Serilog.AspNetCore" Version="8.0.0" />
+    </ItemGroup>
+    
+</Project>

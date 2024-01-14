@@ -1,12 +1,16 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SourceName.Infrastructure.Loaders.Models;
 using ILogger = Serilog.ILogger;
 
 namespace SourceName.Api.Loaders;
 
-public static class IdentityConfiguration
+internal static class IdentityConfiguration
 {
     public static void ConfigureIdentity(
         this IServiceCollection services,
@@ -46,12 +50,12 @@ public static class IdentityConfiguration
                     {
                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                         {
-                            context.Response.Headers.Add("Token-Expired", "true");
+                            context.Response.Headers.Append("Token-Expired", "true");
                         }
                         else
                         {
                             logger.Error("JWT Token Errror: {Message}", context.Exception.Message);
-                            context.Response.Headers.Add("Token-Error", "invalid token");
+                            context.Response.Headers.Append("Token-Error", "invalid token");
                         }
 
                         return Task.CompletedTask;

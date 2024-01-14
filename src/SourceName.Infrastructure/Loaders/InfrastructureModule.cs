@@ -4,10 +4,15 @@ namespace SourceName.Infrastructure.Loaders;
 
 public static class InfrastructureModule
 {
-    public static void AddInfrastructureModule(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructureModule(this IServiceCollection services)
     {
         services.RegisterDependencies();
+        
+        return services;
+    }
 
-        // services.AddDbContext<ExampleContext>(options => options.UseInMemoryDatabase("examples"));
+    private static IServiceCollection RegisterDependencies(this IServiceCollection services)
+    {
+        return services;
     }
 }

@@ -22,7 +22,7 @@ end_of_line = crlf
 insert_final_newline = false
 
 #### .NET Coding Conventions ####
-[*.{cs,vb}]
+[*.{cs}]
 
 # Disable Defaults
 dotnet_diagnostic.ASP0014.severity = silent

@@ -1,12 +1,11 @@
-﻿using SourceName.Api.Services;
-using SourceName.Application.Contracts;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace SourceName.Api.Loaders;
 
 internal static class DependencyInjection
 {
-    internal static void RegisterDependencies(this IServiceCollection services)
+    internal static IServiceCollection RegisterDependencies(this IServiceCollection services)
     {
-        services.AddTransient<ICurrentUserService, CurrentUserService>();
+        return services;
     }
 }

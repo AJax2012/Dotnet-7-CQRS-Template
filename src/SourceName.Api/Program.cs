@@ -1,12 +1,11 @@
-using FluentValidation.AspNetCore;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using SourceName.Api.Endpoints.Internal;
-using SourceName.Api.Filters;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using SourceName.Api;
+using SourceName.Api.Endpoints.Common;
 using SourceName.Api.Loaders;
-using SourceName.Application.Common.Behaviors;
 using SourceName.Application.Loaders;
-using SourceName.Infrastructure.Data;
 using SourceName.Infrastructure.Loaders;
 using SourceName.Infrastructure.Loaders.Models;
 
@@ -14,61 +13,84 @@ const string allowClientOrigin = "SourceNameOrigin";
 const string allowSwaggerOrigin = "SwaggerOrigin";
 
 var builder = WebApplication.CreateBuilder(args);
-var logger = builder.AddLogging();
+{
+    var logger = builder.AddLogging();
 
-// check configuration
-var jwtSettings = builder.Configuration.GetSection("Auth:JwtBearerTokenSettings").Get<JwtBearerTokenSettings>();
-var isDevelopment = builder.Environment.IsDevelopment();
+    // check configuration
+    var jwtSettings = builder.Configuration.GetSection("Auth:JwtBearerTokenSettings").Get<JwtBearerTokenSettings>();
+    var isDevelopment = builder.Environment.IsDevelopment();
 
-// Add Business Validators
-builder.Services.AddValidators();
+#if EnableAuthenticationEndpoints
+    // add identity
+    // TODO: add sql provider
+    builder.Services.AddAuthentication()
+        .AddBearerToken(IdentityConstants.BearerScheme);
 
-// Add services to the container.
-builder.Services.AddSingleton(logger);
+    builder.Services.AddAuthorizationBuilder();
 
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-
-// Add Endpoint Registration
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddEndpoints<Program>(builder.Configuration);
-
-// Add cors
-builder.Services.AddCors(builder.Configuration);
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddSwagger();
-
-builder.Services.AddDbContext<ExampleContext>(opts => opts.UseInMemoryDatabase("example"));
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddHttpContextAccessor();
-
-// throttling
-#if EnableRateLimiting
-builder.Services.AddRateLimiting(builder.Configuration);
+    builder.Services.AddIdentityCore<AppUser>()
+        .AddEntityFrameworkStores<SourceNameDbContext>()
+        .AddApiEndpoints();
 #endif
 
-builder.Services.RegisterDependencies();
-builder.Services.ConfigureIdentity(jwtSettings!, isDevelopment, logger);
-builder.Services.AddInfrastructureModule();
-builder.Services.AddApplicationModule();
+    // Add services to the container.
+    builder.Services.AddSingleton(logger);
+    
+    // Add health checks
+    builder.Services.AddHealthChecks();
+#if EnableRateLimiting
+        .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+#endif
 
-var app = builder.Build();
+    // Add Endpoint Registration
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddEndpoints<Program>(builder.Configuration);
 
-// Configure the HTTP request pipeline.
-if (isDevelopment)
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
+    // Add cors
+    builder.Services.AddCors(builder.Configuration);
+
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddSwagger();
+
+    builder.Services.AddHttpContextAccessor();
+
+// throttling
+#if !EnableRateLimiting
+    builder.Services.AddRateLimiting(builder.Configuration);
+#endif
+
+    builder.Services.RegisterDependencies()
+        .AddInfrastructureModule()
+        .AddApplicationModule()
+        .AddInfrastructureModule();
+    
+#if EnableAuthenticationEndpoints
+    builder.Services.ConfigureIdentity(jwtSettings!, isDevelopment, logger);
+#endif
 }
 
-app.UseMiddleware<ApiExceptionMiddleware>();
-app.UseHttpsRedirection();
-app.UseRouting();
-app.UseCors(isDevelopment ? allowSwaggerOrigin : allowClientOrigin);
+var app = builder.Build();
+{
+    var isDevelopment = builder.Environment.IsDevelopment();
+    
+    // Configure the HTTP request pipeline.
+    if (isDevelopment)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseDeveloperExceptionPage();
+    }
 
-// app.UseAuthorization();
-app.UseEndpoints<Program>();
+#if EnableAuthenticationEndpoints
+    app.MapIdentityApi<AppUser>();
+#endif
 
-app.Run();
+    app.MapHealthChecks("/_health");
+    app.UseHttpsRedirection();
+    app.UseRouting();
+    app.UseCors(isDevelopment ? allowSwaggerOrigin : allowClientOrigin);
+
+    app.UseEndpoints<IApiMarker>();
+
+    app.Run();
+}
