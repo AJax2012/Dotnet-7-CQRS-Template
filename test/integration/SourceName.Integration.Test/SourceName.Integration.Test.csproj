@@ -10,9 +10,10 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Testcontainers.Redis" Version="3.6.0" />
     </ItemGroup>
+    
     <ItemGroup>
-        <ProjectReference Include="..\..\..\src\SourceName.Api\SourceName.Api.csproj" />
-        <ProjectReference Include="..\..\..\src\SourceName.Contracts\SourceName.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\src\Api\SourceName.Api.csproj" />
+      <ProjectReference Include="..\..\..\src\Contracts\SourceName.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

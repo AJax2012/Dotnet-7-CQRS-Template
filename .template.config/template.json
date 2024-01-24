@@ -4,7 +4,7 @@
   "classifications": ["Web", "API"],
   "identity": "DotnetCqrsTemplate",
   "name": "Dotnet CQRS Template",
-  "shortName": "CQRS Template",
+  "shortName": "cqrs",
   "sourceName": "SourceName",
   "tags": {
     "language": "C#",
