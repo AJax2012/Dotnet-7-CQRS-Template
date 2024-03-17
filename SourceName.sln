@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1A7C999A-16CF-45EF-ACE1-8D82F8A5D28F}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.Props = src\Directory.Build.Props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceName.Api", "src\Api\SourceName.Api.csproj", "{15525CAE-1C38-488A-BABF-E2E69085577D}"
 EndProject
@@ -16,6 +19,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceName.Infrastructure", "src\Infrastructure\SourceName.Infrastructure.csproj", "{18BBBAFE-7EE5-41BD-84AE-43B6CEA2B6CA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{942B2149-9377-42CA-8D66-906B64711B07}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.Props = test\Directory.Build.Props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integration", "integration", "{22760030-5FB3-435F-A905-D73B4C4928A0}"
 EndProject
