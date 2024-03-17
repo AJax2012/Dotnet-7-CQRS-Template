@@ -6,9 +6,9 @@
     
     <ItemGroup>
         <PackageReference Include="Meziantou.Extensions.Logging.Xunit" Version="1.0.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Testcontainers.Redis" Version="3.6.0" />
+        <PackageReference Include="Testcontainers.Redis" Version="3.7.0" />
     </ItemGroup>
     
     <ItemGroup>
