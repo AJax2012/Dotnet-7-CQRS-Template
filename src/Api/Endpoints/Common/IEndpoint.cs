@@ -14,11 +14,4 @@ public interface IEndpoint
     /// </summary>
     /// <param name="app"></param>
     public static abstract void DefineEndpoints(IEndpointRouteBuilder app);
-    
-    /// <summary>
-    /// Adds services to the service collection for dependency injection.
-    /// </summary>
-    /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    public static abstract void AddServices(IServiceCollection services, IConfiguration configuration);
 }

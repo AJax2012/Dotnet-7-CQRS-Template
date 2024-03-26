@@ -15,17 +15,15 @@ internal static class LoggingConfiguration
         builder.Logging.ClearProviders();
 
 #if EnableFileLogger
-var loggingFilePath = builder.Configuration.GetSection("LoggingFilePath").Value;
-Guard.Against.NullOrWhiteSpace(loggingFilePath, "LoggingFilePath",
-    "When using file logger for serilog, LoggingFilePath must be set in appsettings or environment configuration");
+		var loggingFilePath = builder.Configuration.GetSection("LoggingFilePath").Value;
+		Guard.Against.NullOrWhiteSpace(loggingFilePath, "LoggingFilePath",
+		    "When using file logger for serilog, LoggingFilePath must be set in appsettings or environment configuration");
 #endif
 
         ILogger logger = new LoggerConfiguration()
             .Enrich.WithExceptionDetails()
             .Enrich.WithDemystifiedStackTraces()
-#if DEBUG
             .WriteTo.Console(theme: AnsiConsoleTheme.Code)
-#endif
 #if EnableFileLogger
             .WriteTo.File(new JsonFormatter(renderMessage: true), loggingFilePath, rollingInterval: RollingInterval.Day)
 #endif

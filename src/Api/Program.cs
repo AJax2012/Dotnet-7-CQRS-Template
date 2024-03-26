@@ -44,7 +44,6 @@ var builder = WebApplication.CreateBuilder(args);
 
     // Add Endpoint Registration
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddEndpoints<Program>(builder.Configuration);
 
     // Add cors
     builder.Services.AddCors(builder.Configuration);
