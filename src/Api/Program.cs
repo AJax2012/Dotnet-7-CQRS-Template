@@ -37,9 +37,11 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton(logger);
     
     // Add health checks
-    builder.Services.AddHealthChecks();
 #if EnableRateLimiting
+    builder.Services.AddHealthChecks()
         .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+#else
+    builder.Services.AddHealthChecks();
 #endif
 
     // Add Endpoint Registration
