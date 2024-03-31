@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Exceptions;
-using Serilog.Formatting.Json;
 using Serilog.Sinks.SystemConsole.Themes;
+using Throw;
+
 using ILogger = Serilog.ILogger;
 
 namespace SourceName.Api.Loaders;
@@ -16,7 +17,7 @@ internal static class LoggingConfiguration
 
 #if EnableFileLogger
 		var loggingFilePath = builder.Configuration.GetSection("LoggingFilePath").Value;
-		Guard.Against.NullOrWhiteSpace(loggingFilePath, "LoggingFilePath",
+		loggingFilePath.ThrowIfNull().IfNullOrWhiteSpace(_ => "LoggingFilePath",
 		    "When using file logger for serilog, LoggingFilePath must be set in appsettings or environment configuration");
 #endif
 
