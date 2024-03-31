@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Exceptions;
+using Serilog.Formatting.Json;
 using Serilog.Sinks.SystemConsole.Themes;
 using Throw;
 

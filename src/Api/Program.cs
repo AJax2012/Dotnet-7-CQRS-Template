@@ -9,6 +9,8 @@ using SourceName.Api;
 using SourceName.Api.Endpoints.Common;
 using SourceName.Api.Loaders;
 using SourceName.Application.Loaders;
+using SourceName.Contracts.Persistence.DbContext;
+using SourceName.Contracts.Persistence.Models;
 using SourceName.Infrastructure.Loaders;
 using SourceName.Infrastructure.Loaders.Models;
 
