@@ -43,11 +43,10 @@ internal static class EndpointExtensions
     /// <param name="builder"><see cref="RouteHandlerBuilder"/>.</param>
     /// <typeparam name="TRequest"></typeparam>
     /// <returns></returns>
-    internal static RouteHandlerBuilder WithRequestValidation<TRequest>(this RouteHandlerBuilder builder)
-        where TRequest : IRequest =>
-            builder
-                .AddEndpointFilter<RequestValidationFilter<TRequest>>()
-                .ProducesValidationProblem();
+    internal static RouteHandlerBuilder WithRequestValidation<TRequest>(this RouteHandlerBuilder builder) =>
+        builder
+            .AddEndpointFilter<RequestValidationFilter<TRequest>>()
+            .ProducesValidationProblem();
 
     /// <summary>
     /// Maps an endpoint to a <see cref="RouteGroupBuilder"/> or an <see cref="IFeatureEndpoints"/> class.
