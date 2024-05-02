@@ -2,16 +2,7 @@
 
     <PropertyGroup>
         <RootNamespace>SourceName.Api</RootNamespace>
-        <PackageType>Template</PackageType>
-        <PackageVersion>2.0</PackageVersion>
-        <PackageId>AJax2012.Templates.CQRS</PackageId>
-        <PackageTags>dotnet-new;templates</PackageTags>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        
-        <IncludeContentInPack>true</IncludeContentInPack>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <ContentTargetFolders>content</ContentTargetFolders>
-        <UserSecretsId>80a9b21b-4097-4d63-a679-0fcb70700340</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
