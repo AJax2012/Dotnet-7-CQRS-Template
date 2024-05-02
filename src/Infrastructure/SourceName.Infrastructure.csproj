@@ -5,12 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Application\SourceName.Application.csproj" />
-      <ProjectReference Include="..\Domain\SourceName.Domain.csproj" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
+      <ProjectReference Include="..\Application\SourceName.Application.csproj" />
+      <ProjectReference Include="..\Domain\SourceName.Domain.csproj" />
     </ItemGroup>
 
 </Project>
