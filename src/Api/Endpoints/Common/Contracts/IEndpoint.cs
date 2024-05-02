@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
 namespace SourceName.Api.Endpoints.Common.Contracts;
@@ -12,5 +13,5 @@ public interface IEndpoint
 	/// </summary>
 	/// <param name="app"></param>
 	/// <returns></returns>
-	public static abstract IEndpointRouteBuilder Map(IEndpointRouteBuilder app);
+	public static abstract RouteHandlerBuilder Map(IEndpointRouteBuilder app);
 }
