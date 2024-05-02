@@ -1,16 +1,11 @@
-// -----------------------------------------------------------------------
-// <copyright file="ProblemDetailsFactory.cs" company="GardnerWebTech">
-// Copyright (c) GardnerWebTech. All rights reserved.
-// </copyright>
-// -----------------------------------------------------------------------
-
 using System.Collections.Generic;
 using System.Linq;
+
 using ErrorOr;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SourceName.Api.Endpoints.Common;
+namespace SourceName.Api.Endpoints.Common.Extensions;
 
 /// <summary>
 /// Creates a factory for mapping 0 or more <see cref="Error"/>s into a <see cref="ProblemDetails"/> result.
@@ -22,7 +17,7 @@ public static class ProblemDetailsFactory
 	/// </summary>
 	/// <param name="errors">List of <see cref="Error"/>.</param>
 	/// <returns><see cref="IResult"/> of <see cref="ProblemDetails"/>.</returns>
-	public static IResult ToProblemDetailsResult(this List<Error> errors)
+	public static IResult ToProblemDetailsResult(this IList<Error> errors)
 	{
 		if (errors.Count is 0)
 		{
@@ -46,7 +41,7 @@ public static class ProblemDetailsFactory
 		return Results.Problem(statusCode: statusCode, detail: error.Description);
 	}
 
-	private static IResult ValidationProblem(List<Error> errors)
+	private static IResult ValidationProblem(IEnumerable<Error> errors)
 	{
 		IDictionary<string, string[]> errorDictionary =
 			errors.ToDictionary(error => error.Code, error => new[] { error.Description });
