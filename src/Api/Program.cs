@@ -60,8 +60,8 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddHttpContextAccessor();
 
-// throttling
 #if !EnableRateLimiting
+    // throttling
     builder.Services.AddRateLimiting(builder.Configuration);
 #endif
 
