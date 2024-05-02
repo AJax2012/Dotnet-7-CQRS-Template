@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using SourceName.Api;
-using SourceName.Api.Endpoints.Common;
+using SourceName.Api.Endpoints.Common.Extensions;
 using SourceName.Api.Loaders;
 using SourceName.Application.Loaders;
 using SourceName.Contracts.Persistence.DbContext;
