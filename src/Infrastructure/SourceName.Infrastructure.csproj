@@ -5,10 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.3" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Application\SourceName.Application.csproj" />
       <ProjectReference Include="..\Domain\SourceName.Domain.csproj" />
     </ItemGroup>
