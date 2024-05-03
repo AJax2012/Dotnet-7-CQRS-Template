@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -9,10 +8,7 @@ using SourceName.Api;
 using SourceName.Api.Endpoints.Common.Extensions;
 using SourceName.Api.Loaders;
 using SourceName.Application.Loaders;
-using SourceName.Contracts.Persistence.DbContext;
-using SourceName.Contracts.Persistence.Models;
 using SourceName.Infrastructure.Loaders;
-using SourceName.Infrastructure.Loaders.Models;
 
 const string allowClientOrigin = "SourceNameOrigin";
 const string allowSwaggerOrigin = "SwaggerOrigin";
@@ -20,10 +16,6 @@ const string allowSwaggerOrigin = "SwaggerOrigin";
 var builder = WebApplication.CreateBuilder(args);
 {
     var logger = builder.AddLogging();
-
-    // check configuration
-    var jwtSettings = builder.Configuration.GetSection("Auth:JwtBearerTokenSettings").Get<JwtBearerTokenSettings>();
-    var isDevelopment = builder.Environment.IsDevelopment();
 
     builder.Services.AddAuthentication()
         .AddBearerToken(IdentityConstants.BearerScheme);
@@ -50,7 +42,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddHttpContextAccessor();
 
-#if !EnableRateLimiting
+#if EnableRateLimiting
     // throttling
     builder.Services.AddRateLimiting(builder.Configuration);
 #endif
