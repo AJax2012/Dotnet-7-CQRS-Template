@@ -25,18 +25,8 @@ var builder = WebApplication.CreateBuilder(args);
     var jwtSettings = builder.Configuration.GetSection("Auth:JwtBearerTokenSettings").Get<JwtBearerTokenSettings>();
     var isDevelopment = builder.Environment.IsDevelopment();
 
-#if EnableAuthenticationEndpoints
-    // add identity
-    // TODO: add sql provider
     builder.Services.AddAuthentication()
         .AddBearerToken(IdentityConstants.BearerScheme);
-
-    builder.Services.AddAuthorizationBuilder();
-
-    builder.Services.AddIdentityCore<AppUser>()
-        .AddEntityFrameworkStores<SourceNameDbContext>()
-        .AddApiEndpoints();
-#endif
 
     // Add services to the container.
     builder.Services.AddSingleton(logger);
@@ -68,10 +58,6 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.RegisterDependencies()
         .AddInfrastructureModule()
         .AddApplicationModule();
-    
-#if EnableAuthenticationEndpoints
-    builder.Services.ConfigureIdentity(jwtSettings!, isDevelopment, logger);
-#endif
 }
 
 var app = builder.Build();
@@ -86,10 +72,8 @@ var app = builder.Build();
         app.UseDeveloperExceptionPage();
     }
 
-#if EnableAuthenticationEndpoints
-    app.MapIdentityApi<AppUser>();
-#endif
-
+    // Add health checks
+    // TODO: add health checks for data providers.
     app.MapHealthChecks("/_health");
     app.UseHttpsRedirection();
     app.UseRouting();
