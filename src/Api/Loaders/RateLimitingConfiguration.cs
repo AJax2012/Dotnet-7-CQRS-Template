@@ -1,4 +1,5 @@
-﻿using AspNetCoreRateLimit;
+﻿#if EnableRateLimiting
+using AspNetCoreRateLimit;
 using AspNetCoreRateLimit.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,3 +19,4 @@ internal static class RateLimitingConfiguration
         services.AddRedisRateLimiting();
     }
 }
+#endif

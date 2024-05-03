@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
+#if (EnableRateLimiting)
 using Microsoft.Extensions.Configuration;
+#endif
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton(logger);
     
     // Add health checks
-#if EnableRateLimiting
+#if (EnableRateLimiting)
     builder.Services.AddHealthChecks()
         .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 #else
@@ -42,7 +44,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddHttpContextAccessor();
 
-#if EnableRateLimiting
+#if (EnableRateLimiting)
     // throttling
     builder.Services.AddRateLimiting(builder.Configuration);
 #endif
