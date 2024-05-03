@@ -12,12 +12,6 @@
   },
   "preferNameDirectory": true,
   "symbols": {
-    "EnableFileLogger": {
-      "type": "parameter",
-      "description": "Enables file logging output",
-      "datatype": "bool",
-      "defaultValue": "true"
-    },
     "EnableRateLimiting": {
       "type": "parameter",
       "description": "Enables rate limiting with redis",
