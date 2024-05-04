@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <RootNamespace>ExampleProject.TestUtils</RootNamespace>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Application\ExampleProject.Application.csproj" />
+    <ProjectReference Include="..\..\src\Contracts\ExampleProject.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Domain\ExampleProject.Domain.csproj" />
+  </ItemGroup>
+  
+</Project>
