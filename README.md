@@ -17,7 +17,7 @@ The basic idea of CQRS in simple terms is a loosely coupled architecture. The la
   <img alt="CQRS Onion" src="https://miro.medium.com/v2/resize:fit:1400/1*8eY3hTiNEWffynPPLqqZmw.jpeg" width="300" />
 </div>
 
-In this template, there is also a "Contracts" project, which contains the API model objects, including requests, responses, example requests/responses for Swagger, and other objects related to the Presentation layer.
+In this template, there is also a "Contracts" project, which contains the API model objects, including requests, responses, example requests/responses for Swagger, and other objects related to the Presentation layer. If you intend to make a client C# application or another presentation layer (example, gRPC project) that would use the objects in the Contracts folder, I would highly recommend publishing it as a nuget package so you can make all updates in one location.
 
 ## REPR Pattern Overview
 
