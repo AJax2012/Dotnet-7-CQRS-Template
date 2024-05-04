@@ -30,6 +30,22 @@
           "exclude": [
             "src/Api/Loaders/RateLimitingConfiguration.cs"
           ]
+        },
+        {
+          "exclude": [
+            "**/[Bb]in/**",
+            "**/[Oo]bj/**",
+            ".template.config/**",
+            ".vs/**",
+            ".idea/**",
+            ".git/**",
+            "example/**",
+            "**/logs/**",
+            "**/*.filelist",
+            "**/*.user",
+            "**/*.lock.json",
+            "README.md"
+          ]
         }
       ]
     }
