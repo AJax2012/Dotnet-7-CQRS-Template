@@ -78,6 +78,8 @@ public class CreateProfile : IEndpoint
 
 Notice in the Map method, there is a WithRequestValidation method. This extension method creates an EndpointFilter that uses the FluentValidation library to validate an API request. Invalid API requests will return a Validation Problem rather than throwing an exception.
 
+For more examples, please see the [example folder](https://github.com/AJax2012/Dotnet-8-CQRS-Template/tree/main/example) for a fully generated template with Profile endpoints.
+
 ## Helpful Project
 
 The [Dotnet CQRS REPR pattern CRUD Templates](https://github.com/AJax2012/DotnetCqrsReprCrudTemplates) repository is a helpful project to help create the boilerplate classes for this template. It auto-generates the endpoints, API request/response objects, Commands, Queries, Repository, and tests. It doesn't do much beyond creating the boilerplate files, but it does save quite a bit of time. Please view the project for more information.
