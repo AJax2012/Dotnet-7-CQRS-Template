@@ -2,6 +2,8 @@
 
 This `dotnet new` template is meant to be minimal, but opinionated, boilerplate for a C# API template. The patterns are CQRS, Mediator, and REPR (Minimal API Endpoints).
 
+**REMINDER**: Update the author name in the [Contracts csproj file](https://github.com/AJax2012/Dotnet-8-CQRS-Template/blob/main/src/Contracts/SourceName.Contracts.csproj).
+
 ## CQRS Onion Architecture Overview
 
 The basic idea of CQRS in simple terms is a loosely coupled architecture. The layers do the following:
